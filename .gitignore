@@ -1,0 +1,19 @@
+# Eclipse
+*.pydevproject
+.project
+.metadata
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea
+
+# Emacs
+\#*\#
+.#*
+
+node_modules
+dist
+.tmp
+src/bower_components
