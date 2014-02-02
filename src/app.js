@@ -1,16 +1,6 @@
-'use strict';
-
-describe('YaTreeviewCtrl', function () {
-
-    // load the controller's module
-    beforeEach(module('ya.treeview'));
-
-    var scope, ctrl;
-
-    // Initialize the controller and a mock scope
-    beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
-        scope.model = [
+angular.module('app', ['ya.treeview'])
+    .controller('AppCtrl', function ($scope) {
+        $scope.model = [
             {
                 label: 'parent1',
                 children: [
@@ -36,10 +26,4 @@ describe('YaTreeviewCtrl', function () {
                 label: 'parent3'
             }
         ];
-        ctrl = $controller('YaTreeviewCtrl', {$scope: scope})
-    }));
-
-    it('should not use the model directly', function () {
-        expect(scope.view).not.toBe(scope.model);
     });
-});

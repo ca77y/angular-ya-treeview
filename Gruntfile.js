@@ -22,15 +22,15 @@ module.exports = function (grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             js: {
-                files: ['<%= yeoman.app %>/ya-treeview/{,*/}*.js'],
+                files: ['<%= yeoman.app %>/app.js', '<%= yeoman.app %>/ya-treeview/{,*/}*.js'],
                 tasks: ['newer:jshint:all'],
                 options: {
                     livereload: true
                 }
             },
             jsTest: {
-                files: ['test/spec/{,*/}*.js'],
-                tasks: ['newer:jshint:test', 'karma']
+                files: ['test/unit/{,*/}*.js'],
+                tasks: ['newer:jshint:test', 'karma:unit']
             },
             styles: {
                 files: ['<%= yeoman.app %>/ya-treeview/{,*/}*.less'],
@@ -44,7 +44,8 @@ module.exports = function (grunt) {
                     livereload: '<%= connect.options.livereload %>'
                 },
                 files: [
-                    '<%= yeoman.app %>/{,*/}*.html',
+                    '<%= yeoman.app %>/templates/{,**/}*.html',
+                    '<%= yeoman.app %>/index.html',
                     '.tmp/ya-treeview/{,*/}*.css'
                 ]
             }
@@ -223,7 +224,21 @@ module.exports = function (grunt) {
             unit: {
                 configFile: 'karma.conf.js',
                 singleRun: true
+            },
+            tdd: {
+                configFile: 'karma.conf.js',
+                autoWatch: true,
+                singleRun: false
             }
+        },
+
+        protractor: {
+            options: {
+                configFile: 'protractor.conf.js',
+                keepAlive: true,
+                noColor: false
+            },
+            e2e: {}
         }
     });
 
@@ -239,7 +254,14 @@ module.exports = function (grunt) {
         'clean:server',
         'less:server',
         'connect:test',
-        'karma'
+        'karma:unit'
+    ]);
+
+    grunt.registerTask('tdd', [
+        'clean:server',
+        'less:server',
+        'connect:test',
+        'karma:tdd'
     ]);
 
     grunt.registerTask('build', [

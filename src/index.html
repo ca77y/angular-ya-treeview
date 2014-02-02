@@ -15,14 +15,16 @@
     <!-- endbower -->
     <link rel="stylesheet" href="ya-treeview/treeview.css">
 </head>
-<body ng-app="ya.treeview">
+<body ng-app="app">
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container">
-    <ya-treeview></ya-treeview>
+<div class="container" ng-controller="AppCtrl">
+    <div ya-treeview ya-model="model">
+        <span>{{ yaNode.label }}</span>
+    </div>
 </div>
 
 <!-- bower:js -->
@@ -32,6 +34,7 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <!-- endbower -->
 
+<script src="app.js"></script>
 <script src="ya-treeview/treeview.js"></script>
 
 </body>
