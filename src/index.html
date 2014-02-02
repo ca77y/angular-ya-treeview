@@ -22,8 +22,8 @@
 
 <!-- Add your site or application content here -->
 <div class="container" ng-controller="AppCtrl">
-    <div ya-treeview ya-model="model">
-        <span>{{ yaNode.label }}</span>
+    <div ya-treeview ya-id="myTree" ya-model="model">
+        <span>{{ node.$model.label }}</span>
     </div>
 </div>
 

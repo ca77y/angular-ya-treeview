@@ -37,11 +37,11 @@ angular.module('ya.treeview', [])
             return tree;
         };
 
+        $scope.view = spanView($scope.model);
+
         $scope.hasChildren = function (node) {
             return !!node.$children && (node.$children.length > 0)
         };
-
-        $scope.view = spanView($scope.model);
 
         $scope.showExpand = function (node) {
             return node.collapsed && $scope.hasChildren(node);
@@ -55,17 +55,17 @@ angular.module('ya.treeview', [])
         return {
             restrict: 'AE',
             replace: true,
-            controller: 'YaTreeviewCtrl',
             transclude: true,
+            controller: 'YaTreeviewCtrl',
             scope: {
                 id: '@yaId',
                 model: '=yaModel',
                 options: '=yaOptions'
             },
             templateUrl: 'templates/ya-treeview/treeview.tpl.html',
-            compile: function (tElement, tAttrs) {
-                return function (scope, iElement, iAttrs, treeviewCtrl, transcludeFn) {
-                    treeviewCtrl.transcludeFn = transcludeFn;
+            compile: function (tElement, tAttrs, tTranscludeFn) {
+                return function (scope, iElement, iAttrs, treeviewCtrl) {
+                    treeviewCtrl.transcludeFn = tTranscludeFn;
                 }
             }
         };
@@ -85,7 +85,9 @@ angular.module('ya.treeview', [])
                 var template = tElement.clone();
                 tElement.empty();
                 return function (scope, iElement, iAttrs, treeviewCtrl) {
-                    iElement.append(scope.node.$model.label);
+                    treeviewCtrl.transcludeFn(scope, function(clone) {
+                        iElement.append(clone);
+                    });
 
                     if (angular.isArray(scope.node.$children) && scope.node.$children.length > 0) {
                         iElement.append($compile(template.html())(scope));
