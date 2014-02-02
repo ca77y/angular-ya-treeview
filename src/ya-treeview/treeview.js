@@ -2,8 +2,12 @@
 
 angular.module('ya.treeview', [])
     .controller('YaTreeviewCtrl', function ($scope) {
+        var _selectedNode,
+            self = this;
+
         var spanView = function (nodes) {
             var tree = [];
+
             var recursSpanTree = function (parent, children, root) {
                 var level = [];
                 angular.forEach(children, function (child) {
@@ -11,10 +15,10 @@ angular.module('ya.treeview', [])
                         $model: child,
                         $parent: parent,
                         $root: root,
-                        collapsed: true
+                        collapsed: self.options.collapseByDefault
                     };
-                    if (!!child.children && (child.children.length > 0)) {
-                        vnode.$children = recursSpanTree(child, child.children, root);
+                    if (hasChildren(child, self.options.childrenKey)) {
+                        vnode.$children = recursSpanTree(child, child[self.options.childrenKey], root);
                     }
                     level.push(vnode);
                 });
@@ -26,22 +30,47 @@ angular.module('ya.treeview', [])
                     $model: node,
                     $parent: null,
                     $root: null,
-                    collapsed: true
+                    collapsed: self.options.collapseByDefault
                 };
-                if (node.children && node.children.length > 0) {
-                    vnode.$children = recursSpanTree(node, node.children, node);
+
+                if (hasChildren(node, self.options.childrenKey)) {
+                    vnode.$children = recursSpanTree(node, node[self.options.childrenKey], node);
                 }
+
                 tree.push(vnode);
             });
 
             return tree;
         };
 
-        var hasChildren = function (node) {
-            return angular.isArray(node.$children) && (node.$children.length > 0);
+        var fillOptions = function (clientOptions) {
+            var options = {};
+            clientOptions = clientOptions || {};
+
+            options.childrenKey = clientOptions.childrenKey || 'children';
+            options.onExpand = clientOptions.onExpand || angular.noop;
+            options.onCollapse = clientOptions.onCollapse || angular.noop;
+            options.onSelect = clientOptions.onSelect || angular.noop;
+            options.OnDblClick = !!clientOptions.OnDblClick || angular.noop;
+            options.collapseByDefault = !!clientOptions.collapseByDefault || true;
+
+            return options;
         };
 
-        var _selectedNode, _selectedNodes;
+        var hasChildren = function (node, key) {
+            key = key || '$children';
+            return angular.isArray(node[key]) && (node[key].length > 0);
+        };
+
+        this.expand = function (node) {
+            node.collapsed = false;
+            self.options.onExpand(node);
+        };
+
+        this.collapse = function (node) {
+            node.collapsed = true;
+            self.options.onCollapse(node);
+        };
 
         this.showExpand = function (node) {
             return node.collapsed && hasChildren(node);
@@ -53,17 +82,19 @@ angular.module('ya.treeview', [])
 
         this.selectNode = function (node) {
             _selectedNode = node;
+            self.options.onSelect(node);
         };
 
-        this.selectedNode = function() {
+        this.selectedNode = function () {
             return _selectedNode;
         };
 
-        this.selectedNodes = function() {
-            return _selectedNodes;
+        this.dblClick = function(node) {
+            self.options.OnDblClick(node);
         };
 
-        $scope.view = spanView($scope.model);
+        this.options = fillOptions($scope.options);
+        $scope.tree = spanView($scope.model);
     })
     .directive('yaTreeview', function () {
         return {
@@ -98,15 +129,17 @@ angular.module('ya.treeview', [])
                 var template = tElement.clone();
                 tElement.empty();
                 return function (scope, iElement, iAttrs, treeviewCtrl) {
+                    scope.expand = treeviewCtrl.expand;
+                    scope.collapse = treeviewCtrl.collapse;
                     scope.showCollapse = treeviewCtrl.showCollapse;
                     scope.showExpand = treeviewCtrl.showExpand;
                     scope.selectNode = treeviewCtrl.selectNode;
                     scope.selectedNode = treeviewCtrl.selectedNode;
-                    scope.selectedNodes = treeviewCtrl.selectedNodes;
+                    scope.dblClick = treeviewCtrl.dblClick;
 
-                    scope.$watch(function() {
+                    scope.$watch(function () {
                         return treeviewCtrl.lastSelectedNode;
-                    }, function(newValue) {
+                    }, function (newValue) {
                         scope.lastSelectedNode = newValue;
                     });
 
