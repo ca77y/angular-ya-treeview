@@ -65,4 +65,9 @@ describe('YaTreeviewCtrl', function () {
         expect(scope.view[0].$children.length).toBe(1);
         expect(scope.view[0].$children[0].$children).toBeUndefined();
     });
+
+    it('should have collapsed property on each node', function () {
+        expect(scope.view[0].collapsed).toBeDefined();
+        expect(scope.view[0].$children[0].collapsed).toBeDefined();
+    });
 });

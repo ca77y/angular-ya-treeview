@@ -6,6 +6,9 @@ angular.module('app', ['ya.treeview'])
                 children: [
                     {
                         label: 'child'
+                    },
+                    {
+                        label: 'kid'
                     }
                 ]
             },
