@@ -2,10 +2,37 @@
 
 angular.module('ya.treeview', [])
     .controller('YaTreeviewCtrl', function ($scope) {
-        var spanView = function (model) {
-            return {
-                nodes: model
+        var spanView = function (nodes) {
+            var tree = [];
+            var recursSpanTree = function(parent, children, root) {
+                var tree = [];
+                angular.forEach(children, function(child) {
+                    var vnode = {
+                        $model: child,
+                        $parent: parent,
+                        $root: root
+                    };
+                    if(child.children && child.children.length > 0) {
+                        vnode.$children = recursSpanTree(child, child.children, root);
+                    }
+                    tree.push(vnode);
+                });
+                return tree;
             };
+
+            angular.forEach(nodes, function(node) {
+                var vnode = {
+                    $model: node,
+                    $parent: null,
+                    $root: null
+                };
+                if(node.children && node.children.length > 0) {
+                    vnode.$children = recursSpanTree(node, node.children, node);
+                }
+                tree.push(vnode);
+            });
+
+            return tree;
         };
 
         $scope.view = spanView($scope.model);
@@ -44,10 +71,10 @@ angular.module('ya.treeview', [])
                 tElement.empty();
                 return function (scope, iElement, iAttrs, YaTreeviewCtrl, transcludeFn) {
                     transcludeFn(function (clone) {
-                        iElement.append(scope.node.label);
+                        iElement.append(scope.node.$model.label);
                     });
 
-                    if (angular.isArray(scope.node.children) && scope.node.children.length > 0) {
+                    if (angular.isArray(scope.node.$children) && scope.node.$children.length > 0) {
                         iElement.append($compile(template.html())(scope));
                     }
                 }
