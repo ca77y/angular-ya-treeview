@@ -2,7 +2,7 @@
 
 angular.module('ya.treeview', [])
     .controller('YaTreeviewCtrl', function ($scope) {
-        var _selectedNode,
+        var context = {},
             self = this;
 
         var spanView = function (nodes) {
@@ -64,12 +64,12 @@ angular.module('ya.treeview', [])
 
         this.expand = function (node) {
             node.collapsed = false;
-            self.options.onExpand(node);
+            self.options.onExpand(node, context);
         };
 
         this.collapse = function (node) {
             node.collapsed = true;
-            self.options.onCollapse(node);
+            self.options.onCollapse(node, context);
         };
 
         this.showExpand = function (node) {
@@ -81,16 +81,16 @@ angular.module('ya.treeview', [])
         };
 
         this.selectNode = function (node) {
-            _selectedNode = node;
-            self.options.onSelect(node);
+            context.selectedNode = node;
+            self.options.onSelect(node, context);
         };
 
         this.selectedNode = function () {
-            return _selectedNode;
+            return context.selectedNode;
         };
 
         this.dblClick = function(node) {
-            self.options.OnDblClick(node);
+            self.options.OnDblClick(node, context);
         };
 
         this.options = fillOptions($scope.options);
