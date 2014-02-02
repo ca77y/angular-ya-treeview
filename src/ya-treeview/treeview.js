@@ -37,19 +37,33 @@ angular.module('ya.treeview', [])
             return tree;
         };
 
+        var hasChildren = function (node) {
+            return angular.isArray(node.$children) && (node.$children.length > 0);
+        };
+
+        var _selectedNode, _selectedNodes;
+
+        this.showExpand = function (node) {
+            return node.collapsed && hasChildren(node);
+        };
+
+        this.showCollapse = function (node) {
+            return !node.collapsed && hasChildren(node);
+        };
+
+        this.selectNode = function (node) {
+            _selectedNode = node;
+        };
+
+        this.selectedNode = function() {
+            return _selectedNode;
+        };
+
+        this.selectedNodes = function() {
+            return _selectedNodes;
+        };
+
         $scope.view = spanView($scope.model);
-
-        $scope.hasChildren = function (node) {
-            return !!node.$children && (node.$children.length > 0)
-        };
-
-        $scope.showExpand = function (node) {
-            return node.collapsed && $scope.hasChildren(node);
-        };
-
-        $scope.showCollapse = function (node) {
-            return !node.collapsed && $scope.hasChildren(node);
-        };
     })
     .directive('yaTreeview', function () {
         return {
@@ -66,7 +80,7 @@ angular.module('ya.treeview', [])
             compile: function (tElement, tAttrs, tTranscludeFn) {
                 return function (scope, iElement, iAttrs, treeviewCtrl) {
                     treeviewCtrl.transcludeFn = tTranscludeFn;
-                }
+                };
             }
         };
     })
@@ -77,25 +91,45 @@ angular.module('ya.treeview', [])
             require: '^yaTreeview',
             scope: {
                 node: '=yaNode',
-                children: '=yaChildren',
-                showExpand: '=yaShowExpand',
-                showCollapse: '=yaShowCollapse'
+                children: '=yaChildren'
             },
             templateUrl: 'templates/ya-treeview/children.tpl.html',
-            compile: function (tElement, tAttrs) {
+            compile: function (tElement) {
                 var template = tElement.clone();
                 tElement.empty();
                 return function (scope, iElement, iAttrs, treeviewCtrl) {
-                    treeviewCtrl.transcludeFn(scope, function(clone) {
-                        if(scope.node) {
-                            iElement.append(clone);
-                        }
+                    scope.showCollapse = treeviewCtrl.showCollapse;
+                    scope.showExpand = treeviewCtrl.showExpand;
+                    scope.selectNode = treeviewCtrl.selectNode;
+                    scope.selectedNode = treeviewCtrl.selectedNode;
+                    scope.selectedNodes = treeviewCtrl.selectedNodes;
+
+                    scope.$watch(function() {
+                        return treeviewCtrl.lastSelectedNode;
+                    }, function(newValue) {
+                        scope.lastSelectedNode = newValue;
                     });
 
                     if (angular.isArray(scope.children) && scope.children.length > 0) {
                         iElement.append($compile(template.html())(scope));
                     }
-                }
+                };
+            }
+        };
+    })
+    .directive('yaTransclude', function () {
+        return {
+            restrict: 'AE',
+            replace: false,
+            require: '^yaTreeview',
+            scope: false,
+            template: '',
+            link: function (scope, iElement, iAttrs, treeviewCtrl) {
+                treeviewCtrl.transcludeFn(scope, function (clone) {
+                    if (scope.node) {
+                        iElement.append(clone);
+                    }
+                });
             }
         };
     });
