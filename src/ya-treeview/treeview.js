@@ -77,6 +77,7 @@ angular.module('ya.treeview', [])
             require: '^yaTreeview',
             scope: {
                 node: '=yaNode',
+                children: '=yaChildren',
                 showExpand: '=yaShowExpand',
                 showCollapse: '=yaShowCollapse'
             },
@@ -86,10 +87,12 @@ angular.module('ya.treeview', [])
                 tElement.empty();
                 return function (scope, iElement, iAttrs, treeviewCtrl) {
                     treeviewCtrl.transcludeFn(scope, function(clone) {
-                        iElement.append(clone);
+                        if(scope.node) {
+                            iElement.append(clone);
+                        }
                     });
 
-                    if (angular.isArray(scope.node.$children) && scope.node.$children.length > 0) {
+                    if (angular.isArray(scope.children) && scope.children.length > 0) {
                         iElement.append($compile(template.html())(scope));
                     }
                 }

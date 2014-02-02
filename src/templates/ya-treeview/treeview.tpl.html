@@ -1,11 +1,3 @@
 <div class="ya-treeview">
-    <ul>
-        <li ng-repeat="node in view">
-            <a ng-show="showExpand(node)" class="btn btn-link pull-left" ng-click="node.collapsed = false"><i class="glyphicon glyphicon-chevron-right"></i>
-            </a>
-            <a ng-show="showCollapse(node)" class="btn btn-link pull-left" ng-click="node.collapsed = true"><i class="glyphicon glyphicon-chevron-down"></i>
-            </a>
-            <div ya-node="node" ya-show-expand="showExpand" ya-show-collapse="showCollapse" class="ya-node"></div>
-        </li>
-    </ul>
+    <div ya-node ya-children="view" ya-show-expand="showExpand" ya-show-collapse="showCollapse" class="ya-node"></div>
 </div>
