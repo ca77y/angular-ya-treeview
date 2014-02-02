@@ -89,12 +89,24 @@ angular.module('ya.treeview', [])
             return context.selectedNode;
         };
 
-        this.dblClick = function(node) {
+        this.dblClick = function (node) {
             self.options.OnDblClick(node, context);
         };
 
         this.options = fillOptions($scope.options);
         $scope.tree = spanView($scope.model);
+
+        $scope.expand = this.expand;
+        $scope.collapse = this.collapse;
+        $scope.showCollapse = this.showCollapse;
+        $scope.showExpand = this.showExpand;
+        $scope.selectNode = this.selectNode;
+        $scope.selectedNode = this.selectedNode;
+        $scope.dblClick = this.dblClick;
+
+        $scope.$watch('model', function (newValue) {
+            $scope.tree = spanView(newValue);
+        });
     })
     .directive('yaTreeview', function () {
         return {

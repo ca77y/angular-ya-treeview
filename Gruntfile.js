@@ -141,7 +141,7 @@ module.exports = function (grunt) {
                         removeScriptTypeAttributes: true,
                         removeStyleLinkTypeAttributes: true
                     },
-                    module: null,
+                    module: 'ya.treeview.tpls',
                     base: '<%= yeoman.app %>'
                 },
                 src: ['<%= yeoman.app %>/templates/**/*.tpl.html'],
@@ -167,11 +167,13 @@ module.exports = function (grunt) {
         // Minifies js files
         uglify: {
             options: {
-                wrap: true
+                wrap: true,
+                mangle: true,
+                compress: true
             },
             dist: {
                 options: {
-                    mangle: true,
+                    mangle: false,
                     compress: false,
                     beautify: true
                 },
@@ -180,7 +182,7 @@ module.exports = function (grunt) {
             },
             distTpls: {
                 options: {
-                    mangle: true,
+                    mangle: false,
                     compress: false,
                     beautify: true
                 },
