@@ -36,7 +36,7 @@ describe('YaTreeviewCtrl', function () {
                 label: 'parent3'
             }
         ];
-        ctrl = $controller('YaTreeviewCtrl', {$scope: scope})
+        ctrl = $controller('YaTreeviewCtrl', {$scope: scope});
     }));
 
     it('should create a separate view', function () {
