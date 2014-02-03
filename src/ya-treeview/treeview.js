@@ -2,8 +2,8 @@
 
 angular.module('ya.treeview', [])
     .controller('YaTreeviewCtrl', function ($scope) {
-        var context = {},
-            self = this;
+        var self = this;
+        self.context = {};
 
         var spanView = function (nodes) {
             var tree = [];
@@ -64,12 +64,12 @@ angular.module('ya.treeview', [])
 
         this.expand = function (node) {
             node.collapsed = false;
-            self.options.onExpand(node, context);
+            self.options.onExpand(node, self.context);
         };
 
         this.collapse = function (node) {
             node.collapsed = true;
-            self.options.onCollapse(node, context);
+            self.options.onCollapse(node, self.context);
         };
 
         this.showExpand = function (node) {
@@ -81,16 +81,12 @@ angular.module('ya.treeview', [])
         };
 
         this.selectNode = function (node) {
-            context.selectedNode = node;
-            self.options.onSelect(node, context);
-        };
-
-        this.selectedNode = function () {
-            return context.selectedNode;
+            self.context.selectedNode = node;
+            self.options.onSelect(node, self.context);
         };
 
         this.dblClick = function (node) {
-            self.options.OnDblClick(node, context);
+            self.options.OnDblClick(node, self.context);
         };
 
         this.options = fillOptions($scope.options);
@@ -101,7 +97,7 @@ angular.module('ya.treeview', [])
         $scope.showCollapse = this.showCollapse;
         $scope.showExpand = this.showExpand;
         $scope.selectNode = this.selectNode;
-        $scope.selectedNode = this.selectedNode;
+        $scope.context = this.context;
         $scope.dblClick = this.dblClick;
 
         $scope.$watch('model', function (newValue) {
@@ -145,8 +141,8 @@ angular.module('ya.treeview', [])
                     scope.collapse = treeviewCtrl.collapse;
                     scope.showCollapse = treeviewCtrl.showCollapse;
                     scope.showExpand = treeviewCtrl.showExpand;
+                    scope.context = treeviewCtrl.context;
                     scope.selectNode = treeviewCtrl.selectNode;
-                    scope.selectedNode = treeviewCtrl.selectedNode;
                     scope.dblClick = treeviewCtrl.dblClick;
 
                     scope.$watch(function () {

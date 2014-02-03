@@ -1,11 +1,13 @@
 <div class="ya-treeview">
     <ul>
         <li class="node" ng-repeat="node in tree">
-            <a ng-show="showExpand(node)" class="btn btn-link pull-left" ng-click="expand(node)"><i
-                    class="glyphicon glyphicon-chevron-right"></i></a>
-            <a ng-show="showCollapse(node)" class="btn btn-link pull-left" ng-click="collapse(node)"><i
-                    class="glyphicon glyphicon-chevron-down"></i></a>
-            <div class="node-content" ya-transclude ng-class="{selected: node == selectedNode()}"
+            <div ng-show="node.$children">
+                <a ng-show="node.collapsed" class="btn btn-link pull-left" ng-click="expand(node)"><i
+                        class="glyphicon glyphicon-chevron-right"></i></a>
+                <a ng-hide="node.collapsed" class="btn btn-link pull-left" ng-click="collapse(node)"><i
+                        class="glyphicon glyphicon-chevron-down"></i></a>
+            </div>
+            <div class="node-content" ya-transclude ng-class="{selected: node == context.selectedNode}"
                  ng-click="selectNode(node)" ng-dblclick="dblClick(node)"></div>
             <div ya-node="node" ya-children="node.$children" class="ya-node"></div>
         </li>
