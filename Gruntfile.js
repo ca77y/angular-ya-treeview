@@ -149,6 +149,14 @@ module.exports = function (grunt) {
             }
         },
 
+        copy: {
+            fixtures: {
+                files: [
+                    {expand: true, cwd: 'test/fixtures', src: '*.json', dest: '.tmp'}
+                ]
+            }
+        },
+
         // Allow the use of non-minsafe AngularJS files. Automatically makes it
         // minsafe compatible so Uglify does not destroy the ng references
         ngmin: {
@@ -248,6 +256,7 @@ module.exports = function (grunt) {
         'clean:server',
         'bower-install',
         'less:server',
+        'copy:fixtures',
         'connect:livereload',
         'watch'
     ]);

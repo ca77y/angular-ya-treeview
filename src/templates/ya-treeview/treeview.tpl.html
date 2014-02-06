@@ -7,6 +7,9 @@
                 <a ng-hide="node.collapsed" class="btn btn-link pull-left" ng-click="collapse(node)"><i
                         class="glyphicon glyphicon-chevron-down"></i></a>
             </div>
+            <div ng-show="node.$loading" class="pull-left">
+                <i class="fa fa-spinner fa-spin"></i>
+            </div>
             <div class="node-content" ya-transclude ng-class="{selected: node == context.selectedNode}"
                  ng-click="selectNode(node)" ng-dblclick="dblClick(node)"></div>
             <div ya-node="node" ya-children="node.$children" class="ya-node"></div>

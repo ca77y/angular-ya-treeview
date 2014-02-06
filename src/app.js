@@ -1,32 +1,7 @@
 angular.module('app', ['ya.treeview'])
-    .controller('AppCtrl', function ($scope) {
-        $scope.model = [
-            {
-                label: 'parent1',
-                children: [
-                    {
-                        label: 'child'
-                    },
-                    {
-                        label: 'kid'
-                    }
-                ]
-            },
-            {
-                label: 'parent2',
-                children: [
-                    {
-                        label: 'child',
-                        children: [
-                            {
-                                label: 'innerChild'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                label: 'parent3'
-            }
-        ];
+    .controller('AppCtrl', function ($scope, $http) {
+        $http.get('data.json')
+            .success(function (data) {
+                $scope.model = data;
+            });
     });
