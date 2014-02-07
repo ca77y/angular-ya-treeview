@@ -15,13 +15,13 @@ angular.module('ya.treeview', [])
             options.onSelect = clientOptions.onSelect || angular.noop;
             options.OnDblClick = !!clientOptions.OnDblClick || angular.noop;
             options.collapseByDefault = !!clientOptions.collapseByDefault || true;
-            options.lazy = !!clientOptions.lazy || false;
+            options.lazy = !!clientOptions.lazy || true;
 
             return validateOptions(options);
         };
 
-        var validateOptions = function(options) {
-            if(options.lazy && !options.collapseByDefault) {
+        var validateOptions = function (options) {
+            if (options.lazy && !options.collapseByDefault) {
                 throw new Error('Yea, right... lazy load expanded tree...');
             }
 
@@ -29,7 +29,7 @@ angular.module('ya.treeview', [])
         };
 
         var spanTree = function (nodes) {
-            return spanChildren(null, nodes)
+            return spanChildren(null, nodes);
         };
 
         var spanNode = function (node) {
@@ -50,9 +50,10 @@ angular.module('ya.treeview', [])
                 var vnode = {
                     $model: child,
                     $parent: node,
+                    $hasChildren: hasChildren(child, self.options.childrenKey),
                     collapsed: self.options.collapseByDefault
                 };
-                if (hasChildren(child, self.options.childrenKey)) {
+                if (vnode.$hasChildren) {
                     if (self.options.lazy) {
                         vnode.$children = [];
                     } else {
@@ -97,11 +98,8 @@ angular.module('ya.treeview', [])
 
         this.options = fillOptions($scope.options);
         $scope.tree = spanTree($scope.model);
-
         $scope.expand = this.expand;
         $scope.collapse = this.collapse;
-        $scope.showCollapse = this.showCollapse;
-        $scope.showExpand = this.showExpand;
         $scope.selectNode = this.selectNode;
         $scope.context = this.context;
         $scope.dblClick = this.dblClick;
@@ -145,8 +143,6 @@ angular.module('ya.treeview', [])
                 return function (scope, iElement, iAttrs, treeviewCtrl) {
                     scope.expand = treeviewCtrl.expand;
                     scope.collapse = treeviewCtrl.collapse;
-                    scope.showCollapse = treeviewCtrl.showCollapse;
-                    scope.showExpand = treeviewCtrl.showExpand;
                     scope.context = treeviewCtrl.context;
                     scope.selectNode = treeviewCtrl.selectNode;
                     scope.dblClick = treeviewCtrl.dblClick;
