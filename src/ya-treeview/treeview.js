@@ -58,7 +58,7 @@ angular.module('ya.treeview', [])
             options.onExpand = clientOptions.onExpand || angular.noop;
             options.onCollapse = clientOptions.onCollapse || angular.noop;
             options.onSelect = clientOptions.onSelect || angular.noop;
-            options.OnDblClick = !!clientOptions.OnDblClick || angular.noop;
+            options.onDblClick = !!clientOptions.onDblClick || angular.noop;
             options.collapseByDefault = !!clientOptions.collapseByDefault || true;
             options.lazy = !!clientOptions.lazy || false;
             self.context = clientOptions.context || {};
@@ -98,7 +98,7 @@ angular.module('ya.treeview', [])
         };
 
         this.dblClick = function ($event, node) {
-            options.OnDblClick($event, node, self.context);
+            options.onDblClick($event, node, self.context);
         };
 
         var options = fillOptions($scope.options);

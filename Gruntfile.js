@@ -213,7 +213,7 @@ module.exports = function (grunt) {
                 ieCompat: true
             },
             server: {
-                src: ['<%= yeoman.app %>/ya-treeview/{,*/}*.less'],
+                src: ['<%= yeoman.app %>/app.less', '<%= yeoman.app %>/ya-treeview/{,*/}*.less'],
                 dest: '.tmp/ya-treeview/treeview.css'
             },
             dist: {

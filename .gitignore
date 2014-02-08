@@ -14,7 +14,6 @@
 .#*
 
 node_modules
-dist
 selenium
 .tmp
 src/bower_components
