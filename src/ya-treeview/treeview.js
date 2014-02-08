@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('ya.treeview', [])
-    .factory('YaTreeviewService', function() {
+    .factory('YaTreeviewService', function () {
         var service = {};
 
         var hasChildren = function (node, options) {
@@ -10,14 +10,14 @@ angular.module('ya.treeview', [])
 
         service.children = function (node, options) {
             var children = node.$model[options.childrenKey];
-            if(angular.isFunction(children)) {
+            if (angular.isFunction(children)) {
                 return children();
             } else {
                 return children;
             }
         };
 
-        service.nodify = function(node, parent, options) {
+        service.nodify = function (node, parent, options) {
             var vnode = {
                 $model: node,
                 $parent: parent,
@@ -34,9 +34,9 @@ angular.module('ya.treeview', [])
             return vnode;
         };
 
-        service.nodifyArray = function(nodes, parent, options) {
+        service.nodifyArray = function (nodes, parent, options) {
             var vnodes = [];
-            angular.forEach(nodes, function(node) {
+            angular.forEach(nodes, function (node) {
                 vnodes.push(service.nodify(node, parent, options));
             });
             return vnodes;
@@ -90,13 +90,13 @@ angular.module('ya.treeview', [])
             options.onCollapse(node, self.context);
         };
 
-        this.selectNode = function (node) {
+        this.selectNode = function ($event, node) {
             self.context.selectedNode = node;
-            options.onSelect(node, self.context);
+            options.onSelect($event, node, self.context);
         };
 
-        this.dblClick = function (node) {
-            options.OnDblClick(node, self.context);
+        this.dblClick = function ($event, node) {
+            options.OnDblClick($event, node, self.context);
         };
 
         var options = fillOptions($scope.options);
@@ -106,13 +106,13 @@ angular.module('ya.treeview', [])
         $scope.selectNode = this.selectNode;
         $scope.context = this.context;
         $scope.dblClick = this.dblClick;
-        self.context.nodify = function(node, parent) {
+        self.context.nodify = function (node, parent) {
             return YaTreeviewService.nodify(node, parent, options);
         };
-        self.context.nodifyArray = function(nodes, parent) {
+        self.context.nodifyArray = function (nodes, parent) {
             return YaTreeviewService.nodifyArray(nodes, parent, options)
         };
-        self.context.children = function(node) {
+        self.context.children = function (node) {
             return YaTreeviewService.children(node, options);
         };
 
