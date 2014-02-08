@@ -78,18 +78,18 @@ angular.module('ya.treeview', [])
             return YaTreeviewService.nodifyArray(nodes, null, options);
         };
 
-        this.expand = function (node) {
+        this.expand = function ($event, node) {
             if (node.$hasChildren && node.$children.length === 0) {
                 var children = YaTreeviewService.children(node, options);
                 node.$children = YaTreeviewService.nodifyArray(children, node, options);
             }
             node.collapsed = false;
-            options.onExpand(node, self.context);
+            options.onExpand($event, node, self.context);
         };
 
-        this.collapse = function (node) {
+        this.collapse = function ($event, node) {
             node.collapsed = true;
-            options.onCollapse(node, self.context);
+            options.onCollapse($event, node, self.context);
         };
 
         this.selectNode = function ($event, node) {
