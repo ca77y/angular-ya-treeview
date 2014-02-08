@@ -5,15 +5,17 @@ angular.module('ya.treeview', [])
         var service = {};
 
         var hasChildren = function (node, options) {
-            return angular.isArray(node[options.childrenKey]) || node[options.hasChildrenKey];
+            return angular.isArray(node[options.childrenKey]) || node[options.hasChildrenKey] || false;
         };
 
         service.children = function (node, options) {
             var children = node.$model[options.childrenKey];
             if (angular.isFunction(children)) {
                 return children();
-            } else {
+            } else if (angular.isArray(children)) {
                 return children;
+            } else {
+                throw new Error('Children is neither an array nor a function.');
             }
         };
 
