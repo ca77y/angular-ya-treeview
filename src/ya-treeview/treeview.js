@@ -46,7 +46,6 @@ angular.module('ya.treeview', [])
     })
     .controller('YaTreeviewCtrl', function ($scope, YaTreeviewService) {
         var self = this;
-        self.context = {};
 
         var fillOptions = function (clientOptions) {
             var options = {};
@@ -60,6 +59,7 @@ angular.module('ya.treeview', [])
             options.OnDblClick = !!clientOptions.OnDblClick || angular.noop;
             options.collapseByDefault = !!clientOptions.collapseByDefault || true;
             options.lazy = !!clientOptions.lazy || false;
+            self.context = clientOptions.context || {};
 
             return validateOptions(options);
         };
@@ -73,39 +73,48 @@ angular.module('ya.treeview', [])
         };
 
         var spanTree = function (nodes) {
-            return YaTreeviewService.nodifyArray(nodes, null, self.options);
+            return YaTreeviewService.nodifyArray(nodes, null, options);
         };
 
         this.expand = function (node) {
             if (node.$hasChildren && node.$children.length === 0) {
-                var children = YaTreeviewService.children(node, self.options);
-                node.$children = YaTreeviewService.nodifyArray(children, node, self.options);
+                var children = YaTreeviewService.children(node, options);
+                node.$children = YaTreeviewService.nodifyArray(children, node, options);
             }
             node.collapsed = false;
-            self.options.onExpand(node, self.context);
+            options.onExpand(node, self.context);
         };
 
         this.collapse = function (node) {
             node.collapsed = true;
-            self.options.onCollapse(node, self.context);
+            options.onCollapse(node, self.context);
         };
 
         this.selectNode = function (node) {
             self.context.selectedNode = node;
-            self.options.onSelect(node, self.context);
+            options.onSelect(node, self.context);
         };
 
         this.dblClick = function (node) {
-            self.options.OnDblClick(node, self.context);
+            options.OnDblClick(node, self.context);
         };
 
-        this.options = fillOptions($scope.options);
+        var options = fillOptions($scope.options);
         $scope.tree = spanTree($scope.model);
         $scope.expand = this.expand;
         $scope.collapse = this.collapse;
         $scope.selectNode = this.selectNode;
         $scope.context = this.context;
         $scope.dblClick = this.dblClick;
+        self.context.nodify = function(node, parent) {
+            return YaTreeviewService.nodify(node, parent, options);
+        };
+        self.context.nodifyArray = function(nodes, parent) {
+            return YaTreeviewService.nodifyArray(nodes, parent, options)
+        };
+        self.context.children = function(node) {
+            return YaTreeviewService.children(node, options);
+        };
 
         $scope.$watch('model', function (newValue) {
             $scope.tree = spanTree(newValue);
