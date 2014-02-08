@@ -1,7 +1,50 @@
 'use strict';
 
 angular.module('ya.treeview', [])
-    .controller('YaTreeviewCtrl', function ($scope) {
+    .factory('YaTreeviewService', function() {
+        var service = {};
+
+        var hasChildren = function (node, options) {
+            return angular.isArray(node[options.childrenKey]) || node[options.hasChildrenKey];
+        };
+
+        service.children = function (node, options) {
+            var children = node.$model[options.childrenKey];
+            if(angular.isFunction(children)) {
+                return children();
+            } else {
+                return children;
+            }
+        };
+
+        service.nodify = function(node, parent, options) {
+            var vnode = {
+                $model: node,
+                $parent: parent,
+                $hasChildren: hasChildren(node, options),
+                collapsed: options.collapseByDefault
+            };
+            if (vnode.$hasChildren) {
+                if (options.lazy) {
+                    vnode.$children = [];
+                } else {
+                    vnode.$children = service.nodifyArray(service.children(vnode, options), node, options);
+                }
+            }
+            return vnode;
+        };
+
+        service.nodifyArray = function(nodes, parent, options) {
+            var vnodes = [];
+            angular.forEach(nodes, function(node) {
+                vnodes.push(service.nodify(node, parent, options));
+            });
+            return vnodes;
+        };
+
+        return service;
+    })
+    .controller('YaTreeviewCtrl', function ($scope, YaTreeviewService) {
         var self = this;
         self.context = {};
 
@@ -10,12 +53,13 @@ angular.module('ya.treeview', [])
             clientOptions = clientOptions || {};
 
             options.childrenKey = clientOptions.childrenKey || 'children';
+            options.hasChildrenKey = clientOptions.hasChildrenKey || 'has_children';
             options.onExpand = clientOptions.onExpand || angular.noop;
             options.onCollapse = clientOptions.onCollapse || angular.noop;
             options.onSelect = clientOptions.onSelect || angular.noop;
             options.OnDblClick = !!clientOptions.OnDblClick || angular.noop;
             options.collapseByDefault = !!clientOptions.collapseByDefault || true;
-            options.lazy = !!clientOptions.lazy || true;
+            options.lazy = !!clientOptions.lazy || false;
 
             return validateOptions(options);
         };
@@ -29,54 +73,13 @@ angular.module('ya.treeview', [])
         };
 
         var spanTree = function (nodes) {
-            return spanChildren(null, nodes);
-        };
-
-        var spanNode = function (node) {
-            if (!node) {
-                return [];
-            }
-
-            var children = getChildren(node);
-            if (angular.isArray(children)) {
-                return spanChildren(node, children);
-            }
-            return [];
-        };
-
-        var spanChildren = function (node, children) {
-            var level = [];
-            angular.forEach(children, function (child) {
-                var vnode = {
-                    $model: child,
-                    $parent: node,
-                    $hasChildren: hasChildren(child, self.options.childrenKey),
-                    collapsed: self.options.collapseByDefault
-                };
-                if (vnode.$hasChildren) {
-                    if (self.options.lazy) {
-                        vnode.$children = [];
-                    } else {
-                        vnode.$children = spanChildren(child, getChildren(vnode));
-                    }
-                }
-                level.push(vnode);
-            });
-            return level;
-        };
-
-        var hasChildren = function (node, key) {
-            key = key || '$children';
-            return angular.isArray(node[key]) && (node[key].length > 0);
-        };
-
-        var getChildren = function (node) {
-            return node.$model[self.options.childrenKey];
+            return YaTreeviewService.nodifyArray(nodes, null, self.options);
         };
 
         this.expand = function (node) {
-            if (node.$children && node.$children.length === 0) {
-                node.$children = spanNode(node);
+            if (node.$hasChildren && node.$children.length === 0) {
+                var children = YaTreeviewService.children(node, self.options);
+                node.$children = YaTreeviewService.nodifyArray(children, node, self.options);
             }
             node.collapsed = false;
             self.options.onExpand(node, self.context);
