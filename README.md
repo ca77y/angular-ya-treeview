@@ -92,74 +92,6 @@ A context is used to store treeview-wide properties. _selectedNode_ is an exampl
 custom properties. In case of multiselect for exapmle in can store selectedNodes array, which than can be used in
 templates. More on this [here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-use-cases/).
 
-## Options
-
-Options to be passed to a treeview as an object with keys/values as below.
-
-### childrenKey
-Type: String
-Default: children
-
-A key which should be used to retrieve children from the node. The returned value can be an Array or a Function.
-In case of a Function it should return an Array; If neither an Array nor a Function an Error is thrown.
-
-### hasChildrenKey
-Type: String
-Default: has_children
-
-Used in case loading children is done asynchronously in which case a treeview needs to know if a given node will be
-able to load children.
-
-### onExpand
-Type: Function
-Parameters: $event, node, context
-Default: angular.noop
-
-Fired on a node expand.
-
-### onCollapse
-Type: Function
-Parameters: $event, node, context
-Default: angular.noop
-
-Fired on a node collapse.
-
-### onSelect
-Type: Function
-Parameters: $event, node, context
-Default: angular.noop
-
-Fired on a node selection.
-
-### onDblClick
-Type: Function
-Parameters: $event, node, context
-Default: angular.noop
-
-Fired on a node double click.
-
-### collapseByDefault
-Type: Boolean
-Default: true
-
-Collapse nodes by default.
-
-### lazy
-Type: Boolean
-Default: false
-
-Lazy create virtual tree levels. By default a treeview will create the entire virtual model when it loads. This is not
-always desirable as a treeview can have 100s of nodes but only a handful of root nodes. In that case the treeview won't
-display until the entire virtual tree is created (this is stupid I know, working on an improvement).
-In any case you want the treeview to create its virtual model lazily the flag is there.
-
-### context
-Type: Object
-Default: {}
-
-Treeview-wide context object. In case you would like to prefill the context, you can pass it in options and it will be
-used by the treeview. It has methods to manipulate and create the virtual nodes.
-
 #### selectedNode
 Type: Object
 
@@ -192,6 +124,75 @@ Returns: children Array
 Used to retrieve children from a given virtual node. It will return an array of nodes from the model, not virtual nodes.
 In case you want an array of virtual nodes you can use _nodifyArray_ on the result.
 
+
+## Options
+
+Options to be passed to a treeview as an object with keys/values as below.
+
+#### childrenKey
+Type: String
+Default: children
+
+A key which should be used to retrieve children from the node. The returned value can be an Array or a Function.
+In case of a Function it should return an Array; If neither an Array nor a Function an Error is thrown.
+
+#### hasChildrenKey
+Type: String
+Default: has_children
+
+Used in case loading children is done asynchronously in which case a treeview needs to know if a given node will be
+able to load children.
+
+#### onExpand
+Type: Function
+Parameters: $event, node, context
+Default: angular.noop
+
+Fired on a node expand.
+
+#### onCollapse
+Type: Function
+Parameters: $event, node, context
+Default: angular.noop
+
+Fired on a node collapse.
+
+#### onSelect
+Type: Function
+Parameters: $event, node, context
+Default: angular.noop
+
+Fired on a node selection.
+
+#### onDblClick
+Type: Function
+Parameters: $event, node, context
+Default: angular.noop
+
+Fired on a node double click.
+
+#### collapseByDefault
+Type: Boolean
+Default: true
+
+Collapse nodes by default.
+
+#### lazy
+Type: Boolean
+Default: false
+
+Lazy create virtual tree levels. By default a treeview will create the entire virtual model when it loads. This is not
+always desirable as a treeview can have 100s of nodes but only a handful of root nodes. In that case the treeview won't
+display until the entire virtual tree is created (this is stupid I know, working on an improvement).
+In any case you want the treeview to create its virtual model lazily the flag is there.
+
+#### context
+Type: Object
+Default: {}
+
+Treeview-wide context object. In case you would like to prefill the context, you can pass it in options and it will be
+used by the treeview. It has methods to manipulate and create the virtual nodes.
+
 ## Development
 
 ```
@@ -203,4 +204,4 @@ grunt serve
 PRs are welcome.
 
 ## Release History
-* 2014-02-09   v0.1.0   Initial release
+Still working on it
