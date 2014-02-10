@@ -76,6 +76,10 @@ angular.module('ya.treeview', [])
             var node = {};
             node[options.childrenKey] = nodes;
             var root = YaTreeviewService.nodify(node, null, options);
+            if(options.lazy) {
+                root.$children = YaTreeviewService.nodifyArray(nodes, node, options);
+            }
+            root.$hasChildren = true;
             root.collapsed = false;
             return root;
         };
@@ -116,7 +120,12 @@ angular.module('ya.treeview', [])
         };
 
         $scope.$watch('model', function (newValue) {
-            $scope.node = createRootNode(newValue);
+            var root = createRootNode(newValue);
+            for(var i in root) {
+                if(root.hasOwnProperty(i)) {
+                    $scope.node[i] = root[i];
+                }
+            }
         });
     })
     .directive('yaTreeview', function () {
