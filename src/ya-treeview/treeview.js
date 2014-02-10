@@ -146,10 +146,7 @@ angular.module('ya.treeview', [])
             restrict: 'AE',
             replace: false,
             require: '^yaTreeview',
-            scope: {
-                node: '=yaNode',
-                children: '=yaChildren'
-            },
+            scope: false,
             templateUrl: 'templates/ya-treeview/children.tpl.html',
             compile: function (tElement) {
                 var template = tElement.clone();
@@ -161,7 +158,7 @@ angular.module('ya.treeview', [])
                     scope.selectNode = treeviewCtrl.selectNode;
                     scope.dblClick = treeviewCtrl.dblClick;
 
-                    if (angular.isArray(scope.children)) {
+                    if (scope.node.$hasChildren) {
                         iElement.append($compile(template.html())(scope));
                     }
                 };

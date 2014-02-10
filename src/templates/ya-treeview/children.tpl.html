@@ -1,5 +1,5 @@
 <ul ng-hide="node.collapsed">
-    <li class="node" ng-repeat="node in children">
+    <li class="node" ng-repeat="node in node.$children">
         <div ng-show="node.$hasChildren">
             <a ng-show="node.collapsed" class="btn btn-link pull-left" ng-click="expand($event, node)"><i
                     class="glyphicon glyphicon-chevron-right"></i></a>
@@ -8,6 +8,6 @@
         </div>
         <div class="node-content" ya-transclude ng-class="{'node-children': node.$hasChildren}"
              ng-click="selectNode($event, node)" ng-dblclick="dblClick($event, node)"></div>
-        <div ya-node="node" ya-children="node.$children" class="ya-node"></div>
+        <div ya-node class="ya-node"></div>
     </li>
 </ul>
