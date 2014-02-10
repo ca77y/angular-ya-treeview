@@ -47,8 +47,6 @@ angular.module('ya.treeview', [])
         return service;
     })
     .controller('YaTreeviewCtrl', function ($scope, YaTreeviewService) {
-        var self = this;
-
         var fillOptions = function (clientOptions) {
             var options = {};
             clientOptions = clientOptions || {};
@@ -61,7 +59,7 @@ angular.module('ya.treeview', [])
             options.onDblClick = !!clientOptions.onDblClick || angular.noop;
             options.collapseByDefault = !!clientOptions.collapseByDefault || true;
             options.lazy = !!clientOptions.lazy || false;
-            self.context = clientOptions.context || {};
+            $scope.context = clientOptions.context || {};
 
             return validateOptions(options);
         };
@@ -74,52 +72,51 @@ angular.module('ya.treeview', [])
             return options;
         };
 
-        var spanTree = function (nodes) {
-            return YaTreeviewService.nodifyArray(nodes, null, options);
+        var createRootNode = function (nodes) {
+            var node = {};
+            node[options.childrenKey] = nodes;
+            var root = YaTreeviewService.nodify(node, null, options);
+            root.collapsed = false;
+            return root;
         };
 
-        this.expand = function ($event, node) {
+        $scope.expand = function ($event, node) {
             if (node.$hasChildren && node.$children.length === 0) {
                 var children = YaTreeviewService.children(node, options);
                 node.$children = YaTreeviewService.nodifyArray(children, node, options);
             }
             node.collapsed = false;
-            options.onExpand($event, node, self.context);
+            options.onExpand($event, node, $scope.context);
         };
 
-        this.collapse = function ($event, node) {
+        $scope.collapse = function ($event, node) {
             node.collapsed = true;
-            options.onCollapse($event, node, self.context);
+            options.onCollapse($event, node, $scope.context);
         };
 
-        this.selectNode = function ($event, node) {
-            self.context.selectedNode = node;
-            options.onSelect($event, node, self.context);
+        $scope.selectNode = function ($event, node) {
+            $scope.context.selectedNode = node;
+            options.onSelect($event, node, $scope.context);
         };
 
-        this.dblClick = function ($event, node) {
-            options.onDblClick($event, node, self.context);
+        $scope.dblClick = function ($event, node) {
+            options.onDblClick($event, node, $scope.context);
         };
 
         var options = fillOptions($scope.options);
-        $scope.tree = spanTree($scope.model);
-        $scope.expand = this.expand;
-        $scope.collapse = this.collapse;
-        $scope.selectNode = this.selectNode;
-        $scope.context = this.context;
-        $scope.dblClick = this.dblClick;
-        self.context.nodify = function (node, parent) {
+        $scope.node = createRootNode($scope.model);
+        $scope.context.nodify = function (node, parent) {
             return YaTreeviewService.nodify(node, parent, options);
         };
-        self.context.nodifyArray = function (nodes, parent) {
+        $scope.context.nodifyArray = function (nodes, parent) {
             return YaTreeviewService.nodifyArray(nodes, parent, options)
         };
-        self.context.children = function (node) {
+        $scope.context.children = function (node) {
             return YaTreeviewService.children(node, options);
         };
 
         $scope.$watch('model', function (newValue) {
-            $scope.tree = spanTree(newValue);
+            $scope.node = createRootNode(newValue);
         });
     })
     .directive('yaTreeview', function () {
@@ -145,19 +142,12 @@ angular.module('ya.treeview', [])
         return {
             restrict: 'AE',
             replace: false,
-            require: '^yaTreeview',
             scope: false,
             templateUrl: 'templates/ya-treeview/children.tpl.html',
             compile: function (tElement) {
                 var template = tElement.clone();
                 tElement.empty();
-                return function (scope, iElement, iAttrs, treeviewCtrl) {
-                    scope.expand = treeviewCtrl.expand;
-                    scope.collapse = treeviewCtrl.collapse;
-                    scope.context = treeviewCtrl.context;
-                    scope.selectNode = treeviewCtrl.selectNode;
-                    scope.dblClick = treeviewCtrl.dblClick;
-
+                return function (scope, iElement) {
                     if (scope.node.$hasChildren) {
                         iElement.append($compile(template.html())(scope));
                     }

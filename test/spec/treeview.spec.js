@@ -144,12 +144,12 @@ describe('YaTreeview', function () {
         }));
 
         it('should create a separate view', function () {
-            expect(scope.tree).not.toBe(scope.model);
+            expect(scope.node).not.toBe(scope.model);
         });
 
         it('should disallow lazy to be true and collapsed to be false', function () {
-            expect(scope.tree[0].collapsed).toBeDefined();
-            expect(scope.tree[0].$children[0].collapsed).toBeDefined();
+            expect(scope.node.$children[0].collapsed).toBeDefined();
+            expect(scope.node.$children[0].$children[0].collapsed).toBeDefined();
         });
     });
 });
