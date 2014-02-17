@@ -56,7 +56,7 @@ angular.module('ya.treeview', [])
             options.onExpand = clientOptions.onExpand || angular.noop;
             options.onCollapse = clientOptions.onCollapse || angular.noop;
             options.onSelect = clientOptions.onSelect || angular.noop;
-            options.onDblClick = !!clientOptions.onDblClick || angular.noop;
+            options.onDblClick = clientOptions.onDblClick || angular.noop;
             options.collapseByDefault = !!clientOptions.collapseByDefault || true;
             options.lazy = !!clientOptions.lazy || false;
             $scope.context = clientOptions.context || {};
@@ -113,7 +113,7 @@ angular.module('ya.treeview', [])
             return YaTreeviewService.nodify(node, parent, options);
         };
         $scope.context.nodifyArray = function (nodes, parent) {
-            return YaTreeviewService.nodifyArray(nodes, parent, options)
+            return YaTreeviewService.nodifyArray(nodes, parent, options);
         };
         $scope.context.children = function (node) {
             return YaTreeviewService.children(node, options);

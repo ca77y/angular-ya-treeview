@@ -204,4 +204,4 @@ grunt serve
 PRs are welcome.
 
 ## Release History
-Still working on it
+* 2014-02-18   v0.1.0   Initial release
