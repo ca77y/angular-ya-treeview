@@ -19,6 +19,8 @@ I couldn't find a treeview implementation for angular which would fit all my req
 * lazy/eager creation of the virtual tree
 * easy to implement multiselect
 
+Live example on [plunker](http://plnkr.co/edit/mAfWCLmD9NW0CD44gdNF).
+
 This directive is inspired by the following projects:
 
 * [angular-bootstrap](https://github.com/angular-ui/bootstrap/)
