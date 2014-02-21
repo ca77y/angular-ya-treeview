@@ -36,7 +36,7 @@ This directive is inspired by the following projects:
 ```
 bower install angular-ya-treeview
 ```
-Include `ya-treeview` in your dependencies. In case you are using included templates add `ya.treeview.tpls` as well.
+Include `ya.treeview` in your angular app's dependencies. In case you are using included templates add `ya.treeview.tpls` as well.
 
 ## Usage example
 
