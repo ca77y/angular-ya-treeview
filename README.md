@@ -32,6 +32,12 @@ This directive is inspired by the following projects:
 * Angular 1.2.x (should work with 1.0.x, I haven't checked)
 * Bootstrap 3.x (if you're using my templates)
 
+## Install
+```
+bower install angular-ya-treeview
+```
+Include `ya-treeview` in your dependencies. In case you are using included templates add `ya.treeview.tpls` as well.
+
 ## Usage example
 
 Template
