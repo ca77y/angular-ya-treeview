@@ -7,7 +7,7 @@
 Yet another treeview for angular? Why ???
 
 I couldn't find a treeview implementation for angular which would fit all my requirements. A more detailed motivation is
-[here](https://ca77y.github.io/test). Long story short:
+[here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-motivation/). Long story short:
 
 * external templates
 * hooks for all events (expand, collapse, select, double click)
@@ -63,7 +63,7 @@ $http.get('data.json')
 ```
 
 Some use cases like async children loading, multiselect, node preselection are
-described [here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-motivation/).
+described [here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-use-cases/).
 
 ## Virtual model
 
