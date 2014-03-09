@@ -18,8 +18,36 @@ angular.module('app', ['ya.treeview'])
             }
         };
 
-        $http.get('data.json')
-            .success(function (data) {
+        $scope.load = function () {
+            $http.get('data.json').success(function (data) {
                 $scope.model = data;
             });
+        };
+
+        $scope.model = [
+            {
+                label: 'parent1',
+                children: [
+                    {
+                        label: 'child'
+                    }
+                ]
+            },
+            {
+                label: 'parent2',
+                children: [
+                    {
+                        label: 'child',
+                        children: [
+                            {
+                                label: 'innerChild'
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                label: 'parent3'
+            }
+        ];
     });

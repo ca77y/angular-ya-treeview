@@ -24,6 +24,7 @@
 
 <!-- Add your site or application content here -->
 <div class="container" ng-controller="AppCtrl">
+    <button type="button" ng-click="load()">Reload</button>
     <div ya-treeview ya-id="myTree" ya-model="model" ya-options="options">
         <span ng-class="{selected: context.selectedNodes.indexOf(node) > -1}">{{ node.$model.label }}</span>
     </div>

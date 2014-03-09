@@ -123,12 +123,9 @@ angular.module('ya.treeview', [])
         };
         $scope.context.rootNode = $scope.node;
 
-        $scope.$watch('model', function (newValue) {
-            var root = createRootNode(newValue);
-            for (var i in root) {
-                if (root.hasOwnProperty(i)) {
-                    $scope.node[i] = root[i];
-                }
+        $scope.$watch('model', function (newValue, oldValue) {
+            if(newValue !== oldValue) {
+                $scope.node = createRootNode(newValue);
             }
         });
     })
