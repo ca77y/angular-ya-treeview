@@ -87,7 +87,7 @@ describe('YaTreeview', function () {
             var actual = service.nodify(node, null, options);
 
             expect(actual.$children[0].$model).toBe(child);
-            expect(actual.$children[0].$parent).toBe(node);
+            expect(actual.$children[0].$parent).toBe(actual);
             expect(actual.$children[0].$hasChildren).toBeFalsy();
             expect(actual.$children[0].collapsed).toBe(options.collapseByDefault);
         });

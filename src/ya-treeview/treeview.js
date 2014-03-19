@@ -30,7 +30,7 @@ angular.module('ya.treeview', [])
                 if (options.lazy) {
                     vnode.$children = [];
                 } else {
-                    vnode.$children = service.nodifyArray(service.children(vnode, options), node, options);
+                    vnode.$children = service.nodifyArray(service.children(vnode, options), vnode, options);
                 }
             }
             return vnode;
