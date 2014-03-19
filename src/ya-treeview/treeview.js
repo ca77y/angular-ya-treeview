@@ -76,7 +76,7 @@ angular.module('ya.treeview', [])
             var node = {};
             node[options.childrenKey] = nodes;
             var root = YaTreeviewService.nodify(node, null, options);
-            if(options.lazy) {
+            if (options.lazy) {
                 root.$children = YaTreeviewService.nodifyArray(nodes, node, options);
             }
             root.$hasChildren = true;
@@ -118,11 +118,15 @@ angular.module('ya.treeview', [])
         $scope.context.children = function (node) {
             return YaTreeviewService.children(node, options);
         };
+        $scope.context.createRootNode = function (model) {
+            return createRootNode(model);
+        };
+        $scope.context.rootNode = $scope.node;
 
         $scope.$watch('model', function (newValue) {
             var root = createRootNode(newValue);
-            for(var i in root) {
-                if(root.hasOwnProperty(i)) {
+            for (var i in root) {
+                if (root.hasOwnProperty(i)) {
                     $scope.node[i] = root[i];
                 }
             }
