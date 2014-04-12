@@ -6,8 +6,8 @@
             <a ng-hide="node.collapsed" class="btn btn-link pull-left" ng-click="collapse($event, node)"><i
                     class="glyphicon glyphicon-chevron-down"></i></a>
         </div>
-        <div class="node-content" ya-transclude ng-class="{'node-children': node.$hasChildren, 'node-without-children': !node.$hasChildren}"
-             ng-click="selectNode($event, node)" ng-dblclick="dblClick($event, node)"></div>
+        <div class="node-content" ya-transclude ng-click="selectNode($event, node)"
+             ng-dblclick="dblClick($event, node)"></div>
         <div ya-node class="ya-node"></div>
     </li>
 </ul>

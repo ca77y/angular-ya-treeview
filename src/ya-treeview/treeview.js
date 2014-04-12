@@ -24,15 +24,18 @@ angular.module('ya.treeview', [])
                 $model: node,
                 $parent: parent,
                 $hasChildren: hasChildren(node, options),
-                collapsed: options.collapseByDefault
+                collapsed: !options.expanded
             };
-            if (vnode.$hasChildren) {
-                if (options.lazy) {
-                    vnode.$children = [];
+
+            if(vnode.$hasChildren) {
+                if (options.expanded) {
+                    var children = service.children(vnode, options);
+                    vnode.$children = service.nodifyArray(children, vnode, options);
                 } else {
-                    vnode.$children = service.nodifyArray(service.children(vnode, options), vnode, options);
+                    vnode.$children = [];
                 }
             }
+
             return vnode;
         };
 
@@ -46,7 +49,7 @@ angular.module('ya.treeview', [])
 
         return service;
     })
-    .controller('YaTreeviewCtrl', function ($scope, YaTreeviewService) {
+    .controller('YaTreeviewCtrl', function ($scope, $timeout, YaTreeviewService) {
         var fillOptions = function (clientOptions) {
             var options = {};
             clientOptions = clientOptions || {};
@@ -57,44 +60,46 @@ angular.module('ya.treeview', [])
             options.onCollapse = clientOptions.onCollapse || angular.noop;
             options.onSelect = clientOptions.onSelect || angular.noop;
             options.onDblClick = clientOptions.onDblClick || angular.noop;
-            options.collapseByDefault = !!clientOptions.collapseByDefault || true;
-            options.lazy = !!clientOptions.lazy || false;
-            $scope.context = clientOptions.context || {};
-
-            return validateOptions(options);
-        };
-
-        var validateOptions = function (options) {
-            if (options.lazy && !options.collapseByDefault) {
-                throw new Error('Yea, right... lazy load expanded tree...');
-            }
+            options.expanded = !!clientOptions.expanded;
 
             return options;
+        };
+
+        var fillChildrenNodes = function (node, value) {
+            if (node.$hasChildren) {
+                $timeout(function() {
+                    angular.forEach(node.$children, function (node) {
+                        if (node.$hasChildren) {
+                            var children = YaTreeviewService.children(node, options);
+                            node.$children = value || YaTreeviewService.nodifyArray(children, node, options);
+                        }
+                    });
+                });
+            }
         };
 
         var createRootNode = function (nodes) {
             var node = {};
             node[options.childrenKey] = nodes;
             var root = YaTreeviewService.nodify(node, null, options);
-            if (options.lazy) {
-                root.$children = YaTreeviewService.nodifyArray(nodes, node, options);
-            }
-            root.$hasChildren = true;
+            root.$children = YaTreeviewService.nodifyArray(nodes, root, options);
+            fillChildrenNodes(root);
             root.collapsed = false;
             return root;
         };
 
         $scope.expand = function ($event, node) {
-            if (node.$hasChildren && node.$children.length === 0) {
-                var children = YaTreeviewService.children(node, options);
-                node.$children = YaTreeviewService.nodifyArray(children, node, options);
-            }
+            fillChildrenNodes(node);
             node.collapsed = false;
             options.onExpand($event, node, $scope.context);
         };
 
         $scope.collapse = function ($event, node) {
             node.collapsed = true;
+            fillChildrenNodes(node, []);
+            angular.forEach(node.$children, function (child) {
+                child.collapsed = true;
+            });
             options.onCollapse($event, node, $scope.context);
         };
 
@@ -109,6 +114,8 @@ angular.module('ya.treeview', [])
 
         var options = fillOptions($scope.options);
         $scope.node = createRootNode($scope.model);
+        options.expanded = false;
+        $scope.context = $scope.context || {};
         $scope.context.rootNode = $scope.node;
 
         $scope.context.nodify = function (node, parent) {
@@ -124,7 +131,7 @@ angular.module('ya.treeview', [])
         };
 
         $scope.$watch('model', function (newValue, oldValue) {
-            if(newValue !== oldValue) {
+            if (newValue !== oldValue) {
                 $scope.node = createRootNode(newValue);
             }
         });
@@ -138,7 +145,8 @@ angular.module('ya.treeview', [])
             scope: {
                 id: '@yaId',
                 model: '=yaModel',
-                options: '=yaOptions'
+                options: '=yaOptions',
+                context: '=yaContext'
             },
             templateUrl: 'templates/ya-treeview/treeview.tpl.html',
             compile: function (tElement, tAttrs, tTranscludeFn) {

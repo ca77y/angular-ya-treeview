@@ -1,9 +1,10 @@
 angular.module('app', ['ya.treeview'])
     .controller('AppCtrl', function ($scope, $http) {
+        $scope.context = {
+            selectedNodes: []
+        };
+
         $scope.options = {
-            context: {
-                selectedNodes: []
-            },
             onSelect: function ($event, node, context) {
                 if ($event.ctrlKey) {
                     var idx = context.selectedNodes.indexOf(node);

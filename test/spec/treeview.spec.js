@@ -2,7 +2,6 @@
 
 describe('YaTreeview', function () {
 
-    // load the module
     beforeEach(module('ya.treeview'));
 
     describe('service', function () {
@@ -18,7 +17,7 @@ describe('YaTreeview', function () {
 
             options = {
                 childrenKey: 'children',
-                collapseByDefault: true
+                expanded: true
             };
         }));
 
@@ -64,7 +63,7 @@ describe('YaTreeview', function () {
             expect(actual.$parent).toBe(parent);
             expect(actual.$model).toBe(node);
             expect(actual.$hasChildren).toBeFalsy();
-            expect(actual.collapsed).toBe(options.collapseByDefault);
+            expect(actual.collapsed).toBe(!options.expanded);
         });
 
         it('should expand children', function () {
@@ -89,7 +88,7 @@ describe('YaTreeview', function () {
             expect(actual.$children[0].$model).toBe(child);
             expect(actual.$children[0].$parent).toBe(actual);
             expect(actual.$children[0].$hasChildren).toBeFalsy();
-            expect(actual.$children[0].collapsed).toBe(options.collapseByDefault);
+            expect(actual.$children[0].collapsed).toBe(!options.expanded);
         });
 
         it('should create an array of virtual nodes', function () {
@@ -106,10 +105,9 @@ describe('YaTreeview', function () {
     });
 
     describe('controller', function () {
-        var scope, ctrl;
+        var scope, ctrl, timeout;
 
-        // Initialize the controller and a mock scope
-        beforeEach(inject(function ($controller, $rootScope) {
+        beforeEach(inject(function ($controller, $rootScope, $timeout) {
             scope = $rootScope.$new();
             scope.model = [
                 {
@@ -143,6 +141,7 @@ describe('YaTreeview', function () {
                 onSelect: jasmine.createSpy(),
                 onDblClick: jasmine.createSpy()
             };
+            timeout = $timeout;
             ctrl = $controller('YaTreeviewCtrl', {$scope: scope});
         }));
 
@@ -150,31 +149,21 @@ describe('YaTreeview', function () {
             expect(scope.node).not.toBe(scope.model);
         });
 
-        it('should disallow lazy to be true and collapsed to be false', function () {
-            expect(scope.node.$children[0].collapsed).toBeDefined();
-            expect(scope.node.$children[0].$children[0].collapsed).toBeDefined();
-        });
-
         it('should expand a node', function () {
             var node = scope.node.$children[0];
             node.collapsed = true;
             scope.expand({}, node);
+            timeout.flush();
             expect(node.collapsed).toBeFalsy();
-            expect(scope.options.onExpand).toHaveBeenCalled();
-        });
-
-        it('should lazy expand a node', function () {
-            var node = scope.node.$children[0];
-            node.$hasChildren = true;
-            node.$children = [];
-            scope.expand({}, node);
             expect(node.$children.length).toBeGreaterThan(0);
+            expect(scope.options.onExpand).toHaveBeenCalled();
         });
 
         it('should collapse a node', function () {
             var node = scope.node.$children[0];
             node.collapsed = false;
             scope.collapse({}, node);
+            timeout.flush();
             expect(node.collapsed).toBeTruthy();
             expect(scope.options.onCollapse).toHaveBeenCalled();
         });
