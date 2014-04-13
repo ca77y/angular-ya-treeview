@@ -1,4 +1,4 @@
-angular.module('app', ['ya.treeview'])
+angular.module('app', ['ya.treeview', 'ya.treeview.breadcrumbs'])
     .controller('AppCtrl', function ($scope, $http) {
         $scope.context = {
             selectedNodes: []

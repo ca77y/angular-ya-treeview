@@ -20,11 +20,13 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please
     <a href="http://browsehappy.com/">upgrade your browser</a>
     to improve your experience.
-</p><![endif]-->
+</p>
+<![endif]-->
 
 <!-- Add your site or application content here -->
 <div class="container" ng-controller="AppCtrl">
     <button type="button" ng-click="load()">Reload</button>
+    <div ya-treeview-breadcrumbs ya-context="context"></div>
     <div ya-treeview ya-id="myTree" ya-model="model" ya-options="options" ya-context="context">
         <span ng-class="{selected: context.selectedNodes.indexOf(node) > -1}">{{ node.$model.label }}</span>
     </div>
@@ -39,6 +41,7 @@
 
 <script src="app.js"></script>
 <script src="ya-treeview/treeview.js"></script>
+<script src="ya-treeview/treeview-breadcrumbs.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,5 @@
+<ol class="breadcrumb">
+    <li ng-repeat="crumb in crumbs">
+        <a ng-click="navigateToCrumb(crumb)">{{ crumb.$model.label }}</a>
+    </li>
+</ol>
