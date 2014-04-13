@@ -247,8 +247,7 @@ module.exports = function (grunt) {
                 configFile: 'protractor.conf.js',
                 keepAlive: true,
                 noColor: false
-            },
-            e2e: {}
+            }
         }
     });
 
