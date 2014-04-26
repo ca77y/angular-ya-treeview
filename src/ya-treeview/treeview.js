@@ -88,6 +88,14 @@ angular.module('ya.treeview', [])
             return root;
         };
 
+        $scope.toggle = function ($event, node) {
+            if (node.collapsed) {
+                $scope.expand($event, node);
+            } else {
+                $scope.collapse($event, node);
+            }
+        }
+
         $scope.expand = function ($event, node) {
             fillChildrenNodes(node);
             node.collapsed = false;
