@@ -16,7 +16,7 @@ I couldn't find a treeview implementation for angular which would fit all my req
 * references to a parent and children in nodes
 * treeview context which can be used to store treeview-wide properties
 * async loading of children
-* lazy/eager creation of the virtual tree
+* as little DOM as possible
 * easy to implement multiselect
 
 Live example on [plunker](http://plnkr.co/edit/mAfWCLmD9NW0CD44gdNF).
@@ -110,17 +110,15 @@ Type: Function
 Parameters: node, parent
 Returns: virtual node
 
-Used to create a virtual node from a node. It will create the whole structure or not depending on _options.lazy_.
-This method operates on actual nodes from the model. In case you have a reference to a virtual node pass _node.$model_
-to it.
+Used to create a virtual node from a node. This method operates on actual nodes from the model. In case you have a
+reference to a virtual node pass _node.$model_ to it.
 
 #### nodifyArray
 Type: Function
 Parameters: nodes, parent
 Returns: virtual nodes Array
 
-Used to create a virtual nodes Array from nodes. It expects nodes Array as a parameter. It will create the whole
-structure or not depending on _options.lazy_.
+Used to create a virtual nodes Array from nodes. It expects nodes Array as a parameter.
 This method operates on actual nodes from the model. In case you have a reference to an array or virtual nodes you need
 to convert it to an array of actual nodes or use _nodify_ on each node separately.
 
