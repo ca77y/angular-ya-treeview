@@ -21,13 +21,14 @@
                 $model: node,
                 $parent: parent,
                 $hasChildren: hasChildren(node, options),
-                collapsed: options.collapseByDefault
+                collapsed: !options.expanded
             };
             if (vnode.$hasChildren) {
-                if (options.lazy) {
-                    vnode.$children = [];
+                if (options.expanded) {
+                    var children = service.children(vnode, options);
+                    vnode.$children = service.nodifyArray(children, vnode, options);
                 } else {
-                    vnode.$children = service.nodifyArray(service.children(vnode, options), node, options);
+                    vnode.$children = [];
                 }
             }
             return vnode;
@@ -40,7 +41,7 @@
             return vnodes;
         };
         return service;
-    }).controller("YaTreeviewCtrl", [ "$scope", "YaTreeviewService", function($scope, YaTreeviewService) {
+    }).controller("YaTreeviewCtrl", [ "$scope", "$timeout", "YaTreeviewService", function($scope, $timeout, YaTreeviewService) {
         var fillOptions = function(clientOptions) {
             var options = {};
             clientOptions = clientOptions || {};
@@ -50,38 +51,48 @@
             options.onCollapse = clientOptions.onCollapse || angular.noop;
             options.onSelect = clientOptions.onSelect || angular.noop;
             options.onDblClick = clientOptions.onDblClick || angular.noop;
-            options.collapseByDefault = !!clientOptions.collapseByDefault || true;
-            options.lazy = !!clientOptions.lazy || false;
-            $scope.context = clientOptions.context || {};
-            return validateOptions(options);
-        };
-        var validateOptions = function(options) {
-            if (options.lazy && !options.collapseByDefault) {
-                throw new Error("Yea, right... lazy load expanded tree...");
-            }
+            options.expanded = !!clientOptions.expanded;
             return options;
+        };
+        var fillChildrenNodes = function(node, value) {
+            if (node.$hasChildren) {
+                $timeout(function() {
+                    angular.forEach(node.$children, function(node) {
+                        if (node.$hasChildren) {
+                            var children = YaTreeviewService.children(node, options);
+                            node.$children = value || YaTreeviewService.nodifyArray(children, node, options);
+                        }
+                    });
+                });
+            }
         };
         var createRootNode = function(nodes) {
             var node = {};
             node[options.childrenKey] = nodes;
             var root = YaTreeviewService.nodify(node, null, options);
-            if (options.lazy) {
-                root.$children = YaTreeviewService.nodifyArray(nodes, node, options);
-            }
-            root.$hasChildren = true;
+            root.$children = YaTreeviewService.nodifyArray(nodes, root, options);
+            fillChildrenNodes(root);
             root.collapsed = false;
             return root;
         };
-        $scope.expand = function($event, node) {
-            if (node.$hasChildren && node.$children.length === 0) {
-                var children = YaTreeviewService.children(node, options);
-                node.$children = YaTreeviewService.nodifyArray(children, node, options);
+        $scope.toggle = function($event, node) {
+            if (node.collapsed) {
+                $scope.expand($event, node);
+            } else {
+                $scope.collapse($event, node);
             }
+        };
+        $scope.expand = function($event, node) {
+            fillChildrenNodes(node);
             node.collapsed = false;
             options.onExpand($event, node, $scope.context);
         };
         $scope.collapse = function($event, node) {
             node.collapsed = true;
+            fillChildrenNodes(node, []);
+            angular.forEach(node.$children, function(child) {
+                child.collapsed = true;
+            });
             options.onCollapse($event, node, $scope.context);
         };
         $scope.selectNode = function($event, node) {
@@ -93,6 +104,9 @@
         };
         var options = fillOptions($scope.options);
         $scope.node = createRootNode($scope.model);
+        options.expanded = false;
+        $scope.context = $scope.context || {};
+        $scope.context.rootNode = $scope.node;
         $scope.context.nodify = function(node, parent) {
             return YaTreeviewService.nodify(node, parent, options);
         };
@@ -102,13 +116,13 @@
         $scope.context.children = function(node) {
             return YaTreeviewService.children(node, options);
         };
-        $scope.$watch("model", function(newValue) {
-            var root = createRootNode(newValue);
-            for (var i in root) {
-                if (root.hasOwnProperty(i)) {
-                    $scope.node[i] = root[i];
-                }
+        $scope.$watch("model", function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+                $scope.node = createRootNode(newValue);
             }
+        });
+        $scope.$watch("context.selectedNode", function(node) {
+            $scope.selectNode({}, node);
         });
     } ]).directive("yaTreeview", function() {
         return {
@@ -119,7 +133,8 @@
             scope: {
                 id: "@yaId",
                 model: "=yaModel",
-                options: "=yaOptions"
+                options: "=yaOptions",
+                context: "=yaContext"
             },
             templateUrl: "templates/ya-treeview/treeview.tpl.html",
             compile: function(tElement, tAttrs, tTranscludeFn) {

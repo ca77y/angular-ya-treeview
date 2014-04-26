@@ -94,7 +94,7 @@ angular.module('ya.treeview', [])
             } else {
                 $scope.collapse($event, node);
             }
-        }
+        };
 
         $scope.expand = function ($event, node) {
             fillChildrenNodes(node);

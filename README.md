@@ -179,20 +179,11 @@ Default: angular.noop
 
 Fired on a node double click.
 
-#### collapseByDefault
-Type: Boolean
-Default: true
-
-Collapse nodes by default.
-
-#### lazy
+#### expanded
 Type: Boolean
 Default: false
 
-Lazy create virtual tree levels. By default a treeview will create the entire virtual model when it loads. This is not
-always desirable as a treeview can have 100s of nodes but only a handful of root nodes. In that case the treeview won't
-display until the entire virtual tree is created (this is stupid I know, working on an improvement).
-In any case you want the treeview to create its virtual model lazily the flag is there.
+Expand nodes by default.
 
 #### context
 Type: Object
@@ -200,6 +191,27 @@ Default: {}
 
 Treeview-wide context object. In case you would like to prefill the context, you can pass it in options and it will be
 used by the treeview. It has methods to manipulate and create the virtual nodes.
+
+## Additional stuff
+
+### Breadcrumbs
+
+Include additional file:
+
+* ya-treeview-breadcrumbs-<version>(-tpls)(.min).js
+
+and modules:
+
+* ya.treeview.breadcrumbs
+* ya.treeview.breadcrumbs.tpls (if you're using the provided templates)
+
+Use in html like this:
+
+```
+<div ya-treeview-breadcrumbs ya-context="context"></div>
+```
+
+The context should be the same object you pass to the treeview.
 
 ## Development
 
@@ -212,4 +224,5 @@ grunt serve
 PRs are welcome.
 
 ## Release History
+* 2014-04-14   v0.2.0   Async children creation. Breadcrumbs.
 * 2014-02-18   v0.1.0   Initial release

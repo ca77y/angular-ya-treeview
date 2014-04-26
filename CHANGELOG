@@ -1,3 +1,8 @@
+v0.2.0:
+  date: 2014-04-14
+  changes:
+    - Loads children async.
+    - Adds breadcrumbs plugin.
 v0.1.0:
   date: 2014-02-18
   changes:
