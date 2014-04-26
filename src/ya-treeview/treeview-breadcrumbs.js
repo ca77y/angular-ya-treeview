@@ -8,7 +8,7 @@ angular.module('ya.treeview.breadcrumbs', [])
             scope: {
                 context: '=yaContext'
             },
-            templateUrl: 'templates/ya-treeview/breadcrumbs.tpl.html',
+            templateUrl: 'templates/ya-treeview-breadcrumbs/breadcrumbs.tpl.html',
             controller: function($scope) {
                 $scope.navigateToCrumb = function(node) {
                     $scope.context.selectedNode = node;
@@ -20,7 +20,7 @@ angular.module('ya.treeview.breadcrumbs', [])
                         node = node.$parent;
                         $scope.crumbs.unshift(node);
                     }
-                })
+                });
             }
         };
     });

@@ -129,23 +129,33 @@ module.exports = function (grunt) {
         },
 
         html2js: {
-            dist: {
+            options: {
+                htmlmin: {
+                    collapseBooleanAttributes: true,
+                    collapseWhitespace: true,
+                    removeAttributeQuotes: true,
+                    removeComments: true,
+                    removeEmptyAttributes: true,
+                    removeRedundantAttributes: true,
+                    removeScriptTypeAttributes: true,
+                    removeStyleLinkTypeAttributes: true
+                }
+            },
+            tree: {
                 options: {
-                    htmlmin: {
-                        collapseBooleanAttributes: true,
-                        collapseWhitespace: true,
-                        removeAttributeQuotes: true,
-                        removeComments: true,
-                        removeEmptyAttributes: true,
-                        removeRedundantAttributes: true,
-                        removeScriptTypeAttributes: true,
-                        removeStyleLinkTypeAttributes: true
-                    },
                     module: 'ya.treeview.tpls',
                     base: '<%= yeoman.app %>'
                 },
-                src: ['<%= yeoman.app %>/templates/**/*.tpl.html'],
-                dest: '.tmp/templates/templates.js'
+                src: ['<%= yeoman.app %>/templates/ya-treeview/*.tpl.html'],
+                dest: '.tmp/templates/tree.js'
+            },
+            breadcrumbs: {
+                options: {
+                    module: 'ya.treeview.breadcrumbs.tpls',
+                    base: '<%= yeoman.app %>'
+                },
+                src: ['<%= yeoman.app %>/templates/ya-treeview-breadcrumbs/*.tpl.html'],
+                dest: '.tmp/templates/breadcrumbs.js'
             }
         },
 
@@ -179,31 +189,57 @@ module.exports = function (grunt) {
                 mangle: true,
                 compress: true
             },
-            dist: {
+            tree: {
                 options: {
                     mangle: false,
                     compress: false,
                     beautify: true
                 },
-                src: ['.tmp/ya-treeview/{,*/}*.js'],
+                src: ['.tmp/ya-treeview/treeview.js'],
                 dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>.js'
             },
-            distTpls: {
+            treeTpls: {
                 options: {
                     mangle: false,
                     compress: false,
                     beautify: true
                 },
-                src: ['.tmp/ya-treeview/{,*/}*.js', '.tmp/templates/{,*/}*.js'],
+                src: ['.tmp/ya-treeview/treeview.js', '.tmp/templates/tree.js'],
                 dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>-tpls.js'
             },
-            distMin: {
-                src: ['.tmp/ya-treeview/{,*/}*.js'],
+            treeMin: {
+                src: ['.tmp/ya-treeview/treeview.js'],
                 dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>.min.js'
             },
-            distMinTpls: {
-                src: ['.tmp/ya-treeview/{,*/}*.js', '.tmp/templates/{,*/}*.js'],
+            treeMinTpls: {
+                src: ['.tmp/ya-treeview/treeview.js', '.tmp/templates/tree.js'],
                 dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>-tpls.min.js'
+            },
+            breadcrumbs: {
+                options: {
+                    mangle: false,
+                    compress: false,
+                    beautify: true
+                },
+                src: ['.tmp/ya-treeview/treeview-breadcrumbs.js'],
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>.js'
+            },
+            breadcrumbsTpls: {
+                options: {
+                    mangle: false,
+                    compress: false,
+                    beautify: true
+                },
+                src: ['.tmp/ya-treeview/treeview-breadcrumbs.js', '.tmp/templates/breadcrumbs.js'],
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>-tpls.js'
+            },
+            breadcrumbsMin: {
+                src: ['.tmp/ya-treeview/treeview-breadcrumbs.js'],
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>.min.js'
+            },
+            breadcrumbsMinTpls: {
+                src: ['.tmp/ya-treeview/treeview-breadcrumbs.js', '.tmp/templates/breadcrumbs.js'],
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>-tpls.min.js'
             }
         },
 

@@ -138,7 +138,7 @@ angular.module('ya.treeview', [])
 
         $scope.$watch('context.selectedNode', function(node) {
             $scope.selectNode({}, node);
-        })
+        });
     })
     .directive('yaTreeview', function () {
         return {
