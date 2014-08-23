@@ -42,7 +42,7 @@ Include `ya.treeview` in your angular app's dependencies. In case you are using 
 
 Template
 ```
-<div ya-treeview ya-id="myTree" ya-model="model" ya-options="options">
+<div ya-treeview ya-id="myTree" ya-model="model" ya-options="options" ya-context="context">
     <span>{{ node.$model.label }}</span>
 </div>
 ```
