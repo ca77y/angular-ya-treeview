@@ -4,23 +4,28 @@
 
 ## Getting started
 
-Yet another treeview for angular? Why ???
+###Why?
 
 I couldn't find a treeview implementation for angular which would fit all my requirements. A more detailed motivation is
 [here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-motivation/). Long story short:
 
-* external templates
-* hooks for all events (expand, collapse, select, double click)
-* transclude
-* treeview should not modify the original model
-* references to a parent and children in nodes
-* treeview context which can be used to store treeview-wide properties
-* async loading of children
-* as little DOM as possible
-* easy to implement multiselect
+### Features
+* External templates
+* Hooks for all events (expand, collapse, select, double click)
+* Transclude
+* Treeview does not modify the original model
+* References to a parent and children in nodes
+* Treeview context which can be used to store treeview-wide properties
+* Async loading of children
+* As little DOM as possible
+* Easy to implement multiselect
 
+
+### Demo
 Live example on [plunker](http://plnkr.co/edit/mAfWCLmD9NW0CD44gdNF).
 
+
+### Inspiration
 This directive is inspired by the following projects:
 
 * [angular-bootstrap](https://github.com/angular-ui/bootstrap/)
@@ -32,7 +37,8 @@ This directive is inspired by the following projects:
 * Angular 1.2.x (should work with 1.0.x, I haven't checked)
 * Bootstrap 3.x (if you're using my templates)
 
-## Install
+  
+## Installation
 ```
 bower install angular-ya-treeview
 ```
