@@ -12,7 +12,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory --><!-- bower:css -->
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
 <!-- endbower -->
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="ya-treeview/treeview.css">
 </head>
 <body ng-app="app">
@@ -27,13 +26,13 @@
 <div class="container" ng-controller="AppCtrl">
     <button type="button" ng-click="load()">Reload</button>
     <div ya-treeview-breadcrumbs ya-context="context"></div>
-    <div ya-treeview ya-id="myTree" ya-model="model" ya-options="options" ya-context="context">
+    <div ya-treeview ya-id="myTree" ya-model="model" ya-options="options">
         <span ng-class="{selected: context.selectedNodes.indexOf(node) > -1}">{{ node.$model.label }}</span>
     </div>
 </div>
 
 <!-- bower:js -->
-<script src="bower_components/jquery/jquery.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
