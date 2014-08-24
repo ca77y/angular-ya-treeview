@@ -4,11 +4,6 @@
 
 ## Getting started
 
-###Why?
-
-I couldn't find a treeview implementation for angular which would fit all my requirements. A more detailed motivation is
-[here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-motivation/). Long story short:
-
 ### Features
 * External templates
 * Hooks for all events (expand, collapse, select, double click)
@@ -37,7 +32,7 @@ This directive is inspired by the following projects:
 * Angular 1.2.x (should work with 1.0.x, I haven't checked)
 * Bootstrap 3.x (if you're using my templates)
 
-  
+
 ## Installation
 ```
 bower install angular-ya-treeview
