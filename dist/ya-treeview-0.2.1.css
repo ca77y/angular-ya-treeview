@@ -1,11 +1,7 @@
 .ya-treeview {
   font-size: 12px;
 }
-.ya-treeview ul {
-  padding-left: 0px;
-}
 .ya-treeview li {
-  list-style: none;
   padding-left: 20px;
 }
 .ya-treeview a {

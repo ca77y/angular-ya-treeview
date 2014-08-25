@@ -2,15 +2,15 @@
     "author": "ca77y",
     "name": "angular-ya-treeview",
     "description": "Yet Another Treeview for AngularJS",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "homepage": "http://github.com/ca77y/angular-ya-treeview",
     "repository": {
         "type": "git",
         "url": "git://github.com/ca77y/angular-ya-treeview"
     },
     "main": [
-        "./dist/ya-treeview-0.2.0.min.css",
-        "./dist/ya-treeview-0.2.0-tpls.js"
+        "./dist/ya-treeview-0.2.1.min.css",
+        "./dist/ya-treeview-0.2.1-tpls.min.js"
     ],
     "ignore": [
         "**/.*",

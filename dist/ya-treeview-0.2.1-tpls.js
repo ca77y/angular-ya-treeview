@@ -75,6 +75,10 @@
             root.collapsed = false;
             return root;
         };
+        var context = $scope.context || {}, options = fillOptions($scope.options);
+        context.rootNode = $scope.node;
+        options.expanded = false;
+        $scope.node = createRootNode($scope.model);
         $scope.toggle = function($event, node) {
             if (node.collapsed) {
                 $scope.expand($event, node);
@@ -85,7 +89,7 @@
         $scope.expand = function($event, node) {
             fillChildrenNodes(node);
             node.collapsed = false;
-            options.onExpand($event, node, $scope.context);
+            options.onExpand($event, node, context);
         };
         $scope.collapse = function($event, node) {
             node.collapsed = true;
@@ -93,36 +97,28 @@
             angular.forEach(node.$children, function(child) {
                 child.collapsed = true;
             });
-            options.onCollapse($event, node, $scope.context);
+            options.onCollapse($event, node, context);
         };
         $scope.selectNode = function($event, node) {
-            $scope.context.selectedNode = node;
-            options.onSelect($event, node, $scope.context);
+            context.selectedNode = node;
+            options.onSelect($event, node, context);
         };
         $scope.dblClick = function($event, node) {
-            options.onDblClick($event, node, $scope.context);
+            options.onDblClick($event, node, context);
         };
-        var options = fillOptions($scope.options);
-        $scope.node = createRootNode($scope.model);
-        options.expanded = false;
-        $scope.context = $scope.context || {};
-        $scope.context.rootNode = $scope.node;
-        $scope.context.nodify = function(node, parent) {
+        context.nodify = function(node, parent) {
             return YaTreeviewService.nodify(node, parent, options);
         };
-        $scope.context.nodifyArray = function(nodes, parent) {
+        context.nodifyArray = function(nodes, parent) {
             return YaTreeviewService.nodifyArray(nodes, parent, options);
         };
-        $scope.context.children = function(node) {
+        context.children = function(node) {
             return YaTreeviewService.children(node, options);
         };
         $scope.$watch("model", function(newValue, oldValue) {
             if (newValue !== oldValue) {
                 $scope.node = createRootNode(newValue);
             }
-        });
-        $scope.$watch("context.selectedNode", function(node) {
-            $scope.selectNode({}, node);
         });
     } ]).directive("yaTreeview", function() {
         return {
@@ -177,10 +173,10 @@
     });
     angular.module("ya.treeview.tpls", [ "templates/ya-treeview/children.tpl.html", "templates/ya-treeview/treeview.tpl.html" ]);
     angular.module("templates/ya-treeview/children.tpl.html", []).run([ "$templateCache", function($templateCache) {
-        $templateCache.put("templates/ya-treeview/children.tpl.html", '<ul ng-hide=node.collapsed><li class=node ng-repeat="node in node.$children"><div ng-show=node.$hasChildren><a ng-show=node.collapsed class="btn btn-link pull-left" ng-click="expand($event, node)"><i class="glyphicon glyphicon-chevron-right"></i></a> <a ng-hide=node.collapsed class="btn btn-link pull-left" ng-click="collapse($event, node)"><i class="glyphicon glyphicon-chevron-down"></i></a></div><div class=node-content ya-transclude="" ng-click="selectNode($event, node)" ng-dblclick="dblClick($event, node)"></div><div ya-node="" class=ya-node></div></li></ul>');
+        $templateCache.put("templates/ya-treeview/children.tpl.html", '<ul ng-hide=node.collapsed class=list-unstyled><li class=node ng-repeat="node in node.$children"><div ng-show=node.$hasChildren><a ng-show=node.collapsed class="btn btn-link pull-left" ng-click="expand($event, node)"><i class="glyphicon glyphicon-chevron-right"></i></a> <a ng-hide=node.collapsed class="btn btn-link pull-left" ng-click="collapse($event, node)"><i class="glyphicon glyphicon-chevron-down"></i></a></div><div class="node-content clearfix" ya-transclude ng-click="selectNode($event, node)" ng-dblclick="dblClick($event, node)"></div><div ya-node class=ya-node></div></li></ul>');
     } ]);
     angular.module("templates/ya-treeview/treeview.tpl.html", []).run([ "$templateCache", function($templateCache) {
-        $templateCache.put("templates/ya-treeview/treeview.tpl.html", '<div class=ya-treeview><div ya-node="" class=ya-node></div></div>');
+        $templateCache.put("templates/ya-treeview/treeview.tpl.html", "<div class=ya-treeview><div ya-node class=ya-node></div></div>");
     } ]);
 })({}, function() {
     return this;
