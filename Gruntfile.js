@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
@@ -106,26 +106,16 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
-                files: [
-                    {
-                        dot: true,
-                        src: [
-                            '.tmp',
-                            '<%= yeoman.dist %>/*',
-                            '!<%= yeoman.dist %>/.git*'
-                        ]
-                    }
-                ]
+                files: [{
+                    dot: true,
+                    src: [
+                        '.tmp',
+                        '<%= yeoman.dist %>/*',
+                        '!<%= yeoman.dist %>/.git*'
+                    ]
+                }]
             },
             server: '.tmp'
-        },
-
-        // Automatically inject Bower components into the app
-        'bower-install': {
-            app: {
-                html: '<%= yeoman.app %>/index.html',
-                ignorePath: '<%= yeoman.app %>/'
-            }
         },
 
         html2js: {
@@ -161,9 +151,12 @@ module.exports = function (grunt) {
 
         copy: {
             fixtures: {
-                files: [
-                    {expand: true, cwd: 'test/fixtures', src: '*.json', dest: '.tmp'}
-                ]
+                files: [{
+                    expand: true,
+                    cwd: 'test/fixtures',
+                    src: '*.json',
+                    dest: '.tmp'
+                }]
             }
         },
 
@@ -171,14 +164,12 @@ module.exports = function (grunt) {
         // minsafe compatible so Uglify does not destroy the ng references
         ngmin: {
             dist: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: '<%= yeoman.app %>/ya-treeview',
-                        src: '**/*.js',
-                        dest: '.tmp/ya-treeview'
-                    }
-                ]
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.app %>/ya-treeview',
+                    src: '**/*.js',
+                    dest: '.tmp/ya-treeview'
+                }]
             }
         },
 
@@ -289,7 +280,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('serve', [
         'clean:server',
-        'bower-install',
         'less:server',
         'copy:fixtures',
         'connect:livereload',
@@ -312,7 +302,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'bower-install',
         'html2js',
         'ngmin',
         'uglify',

@@ -1,40 +1,39 @@
 {
-  "name": "angular-ya-treeview",
-  "version": "0.2.0",
-  "dependencies": {},
-  "devDependencies": {
-    "grunt": "~0.4",
-    "grunt-bower-install": "~0.7",
-    "grunt-contrib-clean": "~0.5",
-    "grunt-contrib-connect": "~0.5",
-    "grunt-contrib-jshint": "~0.7",
-    "grunt-contrib-uglify": "~0.2",
-    "grunt-contrib-watch": "~0.5",
-    "grunt-newer": "~0.5",
-    "grunt-ngmin": "~0.0.2",
-    "jshint-stylish": "~0.1",
-    "load-grunt-tasks": "~0.2",
-    "time-grunt": "~0.2",
-    "grunt-karma": "~0.8",
-    "karma-script-launcher": "~0.1",
-    "karma-firefox-launcher": "~0.1",
-    "karma-chrome-launcher": "~0.1",
-    "karma-html2js-preprocessor": "~0.1",
-    "karma-jasmine": "~0.1",
-    "requirejs": "~2.1",
-    "karma-requirejs": "~0.2",
-    "karma-phantomjs-launcher": "~0.1",
-    "karma-ng-html2js-preprocessor": "~0.1",
-    "grunt-html2js": "~0.2",
-    "grunt-contrib-less": "~0.9",
-    "protractor": "~0.17",
-    "grunt-protractor-runner": "~0.2",
-    "grunt-contrib-copy": "~0.5"
-  },
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "scripts": {
-    "test": "grunt test"
-  }
+    "name": "angular-ya-treeview",
+    "version": "0.2.0",
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "~0.4",
+        "grunt-contrib-clean": "~0.5",
+        "grunt-contrib-connect": "~0.5",
+        "grunt-contrib-jshint": "~0.7",
+        "grunt-contrib-uglify": "~0.2",
+        "grunt-contrib-watch": "~0.5",
+        "grunt-newer": "~0.5",
+        "grunt-ngmin": "~0.0.2",
+        "jshint-stylish": "~0.1",
+        "load-grunt-tasks": "~0.2",
+        "time-grunt": "~0.2",
+        "grunt-karma": "~0.8",
+        "karma-script-launcher": "~0.1",
+        "karma-firefox-launcher": "~0.1",
+        "karma-chrome-launcher": "~0.1",
+        "karma-html2js-preprocessor": "~0.1",
+        "karma-jasmine": "~0.1",
+        "requirejs": "~2.1",
+        "karma-requirejs": "~0.2",
+        "karma-phantomjs-launcher": "~0.1",
+        "karma-ng-html2js-preprocessor": "~0.1",
+        "grunt-html2js": "~0.2",
+        "grunt-contrib-less": "~0.9",
+        "protractor": "~0.17",
+        "grunt-protractor-runner": "~0.2",
+        "grunt-contrib-copy": "~0.5"
+    },
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "scripts": {
+        "test": "grunt test"
+    }
 }
