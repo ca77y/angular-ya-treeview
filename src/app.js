@@ -1,11 +1,13 @@
+'use strict';
+
 angular.module('app', ['ya.treeview', 'ya.treeview.breadcrumbs'])
-    .controller('AppCtrl', function ($scope, $http) {
+    .controller('AppCtrl', function($scope, $http) {
         $scope.context = {
             selectedNodes: []
         };
 
         $scope.options = {
-            onSelect: function ($event, node, context) {
+            onSelect: function($event, node, context) {
                 if ($event.ctrlKey) {
                     var idx = context.selectedNodes.indexOf(node);
                     if (context.selectedNodes.indexOf(node) === -1) {
@@ -19,36 +21,26 @@ angular.module('app', ['ya.treeview', 'ya.treeview.breadcrumbs'])
             }
         };
 
-        $scope.load = function () {
-            $http.get('data.json').success(function (data) {
+        $scope.load = function() {
+            $http.get('data.json').success(function(data) {
                 $scope.model = data;
             });
         };
 
-        $scope.model = [
-            {
-                label: 'parent1',
-                children: [
-                    {
-                        label: 'child'
-                    }
-                ]
-            },
-            {
-                label: 'parent2',
-                children: [
-                    {
-                        label: 'child',
-                        children: [
-                            {
-                                label: 'innerChild'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                label: 'parent3'
-            }
-        ];
+        $scope.model = [{
+            label: 'parent1',
+            children: [{
+                label: 'child'
+            }]
+        }, {
+            label: 'parent2',
+            children: [{
+                label: 'child',
+                children: [{
+                    label: 'innerChild'
+                }]
+            }]
+        }, {
+            label: 'parent3'
+        }];
     });

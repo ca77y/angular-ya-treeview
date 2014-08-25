@@ -51,9 +51,6 @@ Template
 Controller
 ```
 $scope.options = {
-    context: {
-        myKey: 'myValue'
-    },
     onSelect: function ($event, node, context) {
         if ($event.ctrlKey) {
             context.myKey = 'newValue';
@@ -63,10 +60,26 @@ $scope.options = {
     }
 };
 
-$http.get('data.json')
-    .success(function (data) {
-        $scope.model = data;
-    });
+$scope.context = {
+    myKey: 'myValue'
+},
+
+$scope.model = [{
+        label: 'parent1',
+        children: [{
+            label: 'child'
+        }]
+    }, {
+        label: 'parent2',
+        children: [{
+            label: 'child',
+            children: [{
+                label: 'innerChild'
+            }]
+        }]
+    }, {
+        label: 'parent3'
+    }];
 ```
 
 Some use cases like async children loading, multiselect, node preselection are
