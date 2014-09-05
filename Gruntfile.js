@@ -187,7 +187,7 @@ module.exports = function(grunt) {
                     beautify: true
                 },
                 src: ['.tmp/ya-treeview/treeview.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>.js'
+                dest: '<%= yeoman.dist %>/ya-treeview.js'
             },
             treeTpls: {
                 options: {
@@ -196,15 +196,15 @@ module.exports = function(grunt) {
                     beautify: true
                 },
                 src: ['.tmp/ya-treeview/treeview.js', '.tmp/templates/tree.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>-tpls.js'
+                dest: '<%= yeoman.dist %>/ya-treeview-tpls.js'
             },
             treeMin: {
                 src: ['.tmp/ya-treeview/treeview.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>.min.js'
+                dest: '<%= yeoman.dist %>/ya-treeview.min.js'
             },
             treeMinTpls: {
                 src: ['.tmp/ya-treeview/treeview.js', '.tmp/templates/tree.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>-tpls.min.js'
+                dest: '<%= yeoman.dist %>/ya-treeview-tpls.min.js'
             },
             breadcrumbs: {
                 options: {
@@ -213,7 +213,7 @@ module.exports = function(grunt) {
                     beautify: true
                 },
                 src: ['.tmp/ya-treeview/treeview-breadcrumbs.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>.js'
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs.js'
             },
             breadcrumbsTpls: {
                 options: {
@@ -222,15 +222,15 @@ module.exports = function(grunt) {
                     beautify: true
                 },
                 src: ['.tmp/ya-treeview/treeview-breadcrumbs.js', '.tmp/templates/breadcrumbs.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>-tpls.js'
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-tpls.js'
             },
             breadcrumbsMin: {
                 src: ['.tmp/ya-treeview/treeview-breadcrumbs.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>.min.js'
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs.min.js'
             },
             breadcrumbsMinTpls: {
                 src: ['.tmp/ya-treeview/treeview-breadcrumbs.js', '.tmp/templates/breadcrumbs.js'],
-                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-<%= yeoman.pkg.version %>-tpls.min.js'
+                dest: '<%= yeoman.dist %>/ya-treeview-breadcrumbs-tpls.min.js'
             }
         },
 
@@ -245,14 +245,14 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: ['<%= yeoman.app %>/ya-treeview/{,*/}*.less'],
-                dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>.css'
+                dest: '<%= yeoman.dist %>/ya-treeview.css'
             },
             distMin: {
                 options: {
                     cleancss: true
                 },
                 src: ['<%= yeoman.app %>/ya-treeview/{,*/}*.less'],
-                dest: '<%= yeoman.dist %>/ya-treeview-<%= yeoman.pkg.version %>.min.css'
+                dest: '<%= yeoman.dist %>/ya-treeview.min.css'
             }
         },
 
@@ -279,7 +279,7 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('serve', [
-        'clean:server',
+    'clean:server',
         'less:server',
         'copy:fixtures',
         'connect:livereload',
