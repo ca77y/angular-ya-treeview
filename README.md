@@ -237,6 +237,7 @@ grunt serve
 PRs are welcome.
 
 ## Release History
-* 2014-08-25   v0.2.1   Async children creation. Breadcrumbs.
+* 2014-09-05   v0.2.2   Bugfixes.
+* 2014-08-25   v0.2.1   Bugfixes.
 * 2014-04-14   v0.2.0   Async children creation. Breadcrumbs.
 * 2014-02-18   v0.1.0   Initial release

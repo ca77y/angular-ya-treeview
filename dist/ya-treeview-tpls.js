@@ -76,9 +76,9 @@
             return root;
         };
         var context = $scope.context || {}, options = fillOptions($scope.options);
-        context.rootNode = $scope.node;
         options.expanded = false;
         $scope.node = createRootNode($scope.model);
+        context.rootNode = $scope.node;
         $scope.toggle = function($event, node) {
             if (node.collapsed) {
                 $scope.expand($event, node);
@@ -171,6 +171,13 @@
             }
         };
     });
+    angular.module("ya.treeview.tpls", [ "templates/ya-treeview/children.tpl.html", "templates/ya-treeview/treeview.tpl.html" ]);
+    angular.module("templates/ya-treeview/children.tpl.html", []).run([ "$templateCache", function($templateCache) {
+        $templateCache.put("templates/ya-treeview/children.tpl.html", '<ul ng-hide=node.collapsed class=list-unstyled><li class=node ng-repeat="node in node.$children"><div ng-show=node.$hasChildren><a ng-show=node.collapsed class="btn btn-link pull-left" ng-click="expand($event, node)"><i class="glyphicon glyphicon-chevron-right"></i></a> <a ng-hide=node.collapsed class="btn btn-link pull-left" ng-click="collapse($event, node)"><i class="glyphicon glyphicon-chevron-down"></i></a></div><div class="node-content clearfix" ya-transclude ng-click="selectNode($event, node)" ng-dblclick="dblClick($event, node)"></div><div ya-node class=ya-node></div></li></ul>');
+    } ]);
+    angular.module("templates/ya-treeview/treeview.tpl.html", []).run([ "$templateCache", function($templateCache) {
+        $templateCache.put("templates/ya-treeview/treeview.tpl.html", "<div class=ya-treeview><div ya-node class=ya-node></div></div>");
+    } ]);
 })({}, function() {
     return this;
 }());
