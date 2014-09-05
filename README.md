@@ -83,8 +83,10 @@ $scope.model = [{
     }];
 ```
 
-Some use cases like async children loading, multiselect, node preselection are
-described [here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-use-cases/).
+Some use cases like multiselect, node preselection are described
+[here](http://ca77y.github.io/2014/02/09/yet-another-angular-treeview-use-cases/). It might get outdated from
+time to time as I don't always check if I break those stuff but it should give you a general idea how to implement
+stuff.
 
 ## Virtual model
 
