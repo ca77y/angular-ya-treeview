@@ -144,7 +144,7 @@ describe('YaTreeview', function() {
                 onDblClick: jasmine.createSpy()
             };
             context = {};
-            scope.context = {};
+            scope.context = context;
             timeout = $timeout;
             ctrl = $controller('YaTreeviewCtrl', {
                 $scope: scope
@@ -153,6 +153,10 @@ describe('YaTreeview', function() {
 
         it('should create a separate view', function() {
             expect(scope.node).not.toBe(scope.model);
+        });
+
+        it('should have the root node in the context', function() {
+            expect(context.rootNode).toBeDefined();
         });
 
         it('should expand a node', function() {

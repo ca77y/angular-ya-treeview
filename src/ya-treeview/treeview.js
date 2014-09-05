@@ -90,9 +90,9 @@ angular.module('ya.treeview', [])
 
         var context = $scope.context || {},
             options = fillOptions($scope.options);
-        context.rootNode = $scope.node;
         options.expanded = false;
         $scope.node = createRootNode($scope.model);
+        context.rootNode = $scope.node;
 
         $scope.toggle = function($event, node) {
             if (node.collapsed) {
