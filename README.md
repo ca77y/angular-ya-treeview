@@ -1,5 +1,4 @@
 # ya.treeview [![Build Status](https://travis-ci.org/ca77y/angular-ya-treeview.png)](https://travis-ci.org/ca77y/angular-ya-treeview)
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ca77y/angular-ya-treeview?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 > Yet Another Treeview for AngularJS
 
