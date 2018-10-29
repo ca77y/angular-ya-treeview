@@ -1,3 +1,5 @@
+THIS IS OLD AND NOT MAINTAINED
+
 # ya.treeview [![Build Status](https://travis-ci.org/ca77y/angular-ya-treeview.png)](https://travis-ci.org/ca77y/angular-ya-treeview)
 
 > Yet Another Treeview for AngularJS
